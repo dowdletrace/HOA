@@ -1,0 +1,86 @@
+/* ============================
+   Base (shared desktop + mobile)
+   ============================ */
+.navbar {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 10px 20px;
+}
+
+.nav-links {
+  display: flex;
+  gap: 20px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-toggle {
+  display: none;
+  font-size: 28px;
+  background: none;
+  border: none;
+  cursor: pointer;
+}
+
+.nav-left {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+}
+
+/* ============================
+   Mobile (700px and below)
+   ============================ */
+@media (max-width: 700px) {
+  .nav-toggle {
+    display: block;
+  }
+
+  .nav-links {
+    display: none;
+    flex-direction: column;
+    background: white;
+    padding: 10px;
+    position: absolute;
+    top: 60px;
+    right: 20px;
+    border: 1px solid #ccc;
+    border-radius: 6px;
+  }
+
+  .nav-links.active {
+    display: flex;
+  }
+
+  .navbar {
+    justify-content: space-between;
+  }
+}
+
+/* ============================
+   Desktop (701px and up)
+   ============================ */
+@media (min-width: 701px) {
+  .navbar {
+    display: flex;
+    align-items: center;
+    justify-content: center; /* center everything */
+    position: relative;
+  }
+
+  .nav-left {
+    position: absolute;
+    left: 20px; /* keeps logo + hamburger group on the left */
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 20px;
+  }
+
+  .nav-toggle {
+    display: none;
+  }
+}

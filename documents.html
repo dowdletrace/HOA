@@ -1,0 +1,252 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>HOA Documents — Dowdle Trace</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="nav.css">
+  <style>
+    .access-gate {
+      background: var(--green-light);
+      border-radius: 14px;
+      padding: 22px 26px;
+      display: flex;
+      align-items: flex-start;
+      gap: 16px;
+      margin-bottom: 36px;
+    }
+    .access-gate-icon {
+      width: 40px; height: 40px; border-radius: 50%;
+      background: var(--white);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .access-gate h3 { font-size: 15px; font-weight: 500; color: var(--green-deep); margin-bottom: 4px; }
+    .access-gate p { font-size: 13px; color: var(--green-mid); line-height: 1.6; }
+    .access-gate a { color: var(--green-deep); font-weight: 500; text-decoration: none; }
+    .access-gate a:hover { text-decoration: underline; }
+
+    .doc-group { margin-bottom: 40px; }
+    .doc-group-title {
+      font-size: 12px;
+      font-weight: 500;
+      letter-spacing: 0.08em;
+      text-transform: uppercase;
+      color: var(--gray-500);
+      margin-bottom: 10px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid var(--gray-200);
+    }
+    .doc-list { display: flex; flex-direction: column; gap: 8px; }
+    .doc-item {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 14px 18px;
+      background: var(--gray-50);
+      border-radius: 10px;
+      text-decoration: none;
+      transition: background 0.15s, transform 0.15s;
+      border: 1px solid transparent;
+    }
+    .doc-item:hover {
+      background: var(--white);
+      border-color: var(--gray-200);
+      transform: translateX(3px);
+    }
+    .doc-icon {
+      width: 36px; height: 36px;
+      border-radius: 8px;
+      background: var(--green-light);
+      display: flex; align-items: center; justify-content: center;
+      flex-shrink: 0;
+    }
+    .doc-icon svg { width: 18px; height: 18px; }
+    .doc-info { flex: 1; }
+    .doc-info h4 { font-size: 14px; font-weight: 500; color: var(--gray-900); margin-bottom: 2px; }
+    .doc-info p { font-size: 12px; color: var(--gray-500); }
+    .doc-arrow { color: var(--gray-500); flex-shrink: 0; }
+    .doc-arrow svg { width: 16px; height: 16px; }
+    .doc-item.locked { opacity: 0.5; pointer-events: none; }
+    .doc-item.locked .doc-icon { background: var(--gray-100); }
+
+    .update-note {
+      margin-top: 40px;
+      padding: 18px 22px;
+      background: var(--gray-50);
+      border-radius: 12px;
+      border-left: 3px solid var(--green-mid);
+    }
+    .update-note h4 { font-size: 13px; font-weight: 500; color: var(--gray-900); margin-bottom: 4px; }
+    .update-note p { font-size: 12px; color: var(--gray-500); line-height: 1.65; }
+    .update-note code { background: var(--gray-200); padding: 1px 5px; border-radius: 3px; font-size: 11px; }
+
+  .page-header {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+  </style>
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="nav-left">
+    <button class="nav-toggle" aria-label="Toggle navigation">☰</button>
+    <a href="index.html" class="nav-logo">Dowdle Trace</a>
+  </div>
+
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="announcements.html" class="active">Announcements</a></li>
+    <li><a href="events.html">Events</a></li>
+    <li><a href="community.html">Our community</a></li>
+    <li><a href="documents.html">HOA documents</a></li>
+  </ul>
+</nav>
+
+
+  <div class="page-header">
+    <div class="page-header-eyebrow">Member resources</div>
+    <h1>HOA documents</h1>
+    <p>Governing documents, meeting minutes, and community resources for Dowdle Trace POA members.</p>
+  </div>
+
+  <section>
+
+    <div class="access-gate fade-up">
+      <div class="access-gate-icon">
+        <svg width="18" height="18" viewBox="0 0 20 20" fill="none"><path d="M7 9V7a3 3 0 016 0v2M5 9h10a1 1 0 011 1v6a1 1 0 01-1 1H5a1 1 0 01-1-1v-6a1 1 0 011-1z" stroke="#27500A" stroke-width="1.5" stroke-linecap="round"/></svg>
+      </div>
+      <div>
+        <h3>Members only</h3>
+        <p>Documents are available to Dowdle Trace POA members in good standing. If you haven't received access yet, <a href="mailto:dowdletrace@gmail.com">email the administrator</a> to request it — usually sorted within a day or two.</p>
+      </div>
+    </div>
+
+    <!-- GOVERNING DOCUMENTS -->
+    <div class="doc-group">
+      <div class="doc-group-title">Governing documents</div>
+      <div class="doc-list">
+
+        <a href="YOUR_GOOGLE_DRIVE_LINK_HERE" target="_blank" class="doc-item fade-up">
+          <div class="doc-icon">
+            <svg viewBox="0 0 20 20" fill="none"><path d="M5 3h10a1 1 0 011 1v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4a1 1 0 011-1z" stroke="#3B6D11" stroke-width="1.5"/><path d="M7 8h6M7 11h6M7 14h4" stroke="#3B6D11" stroke-width="1.5" stroke-linecap="round"/></svg>
+          </div>
+          <div class="doc-info">
+            <h4>Covenants, Conditions &amp; Restrictions (CC&Rs)</h4>
+            <p>The primary governing document for the Dowdle Trace community</p>
+          </div>
+          <div class="doc-arrow"><svg viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        </a>
+
+        <a href="YOUR_GOOGLE_DRIVE_LINK_HERE" target="_blank" class="doc-item fade-up" style="transition-delay:.05s">
+          <div class="doc-icon">
+            <svg viewBox="0 0 20 20" fill="none"><path d="M5 3h10a1 1 0 011 1v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4a1 1 0 011-1z" stroke="#3B6D11" stroke-width="1.5"/><path d="M7 8h6M7 11h6M7 14h4" stroke="#3B6D11" stroke-width="1.5" stroke-linecap="round"/></svg>
+          </div>
+          <div class="doc-info">
+            <h4>Bylaws</h4>
+            <p>Rules governing the operation of the Dowdle Trace POA</p>
+          </div>
+          <div class="doc-arrow"><svg viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        </a>
+
+        <a href="YOUR_GOOGLE_DRIVE_LINK_HERE" target="_blank" class="doc-item fade-up" style="transition-delay:.1s">
+          <div class="doc-icon">
+            <svg viewBox="0 0 20 20" fill="none"><path d="M5 3h10a1 1 0 011 1v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4a1 1 0 011-1z" stroke="#3B6D11" stroke-width="1.5"/><path d="M7 8h6M7 11h6M7 14h4" stroke="#3B6D11" stroke-width="1.5" stroke-linecap="round"/></svg>
+          </div>
+          <div class="doc-info">
+            <h4>Articles of Incorporation</h4>
+            <p>Legal formation documents for the Dowdle Trace POA</p>
+          </div>
+          <div class="doc-arrow"><svg viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        </a>
+
+      </div>
+    </div>
+
+    <!-- MEETING MINUTES -->
+    <div class="doc-group">
+      <div class="doc-group-title">Meeting minutes</div>
+      <div class="doc-list">
+
+        <a href="YOUR_GOOGLE_DRIVE_LINK_HERE" target="_blank" class="doc-item fade-up">
+          <div class="doc-icon">
+            <svg viewBox="0 0 20 20" fill="none"><path d="M5 3h10a1 1 0 011 1v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4a1 1 0 011-1z" stroke="#3B6D11" stroke-width="1.5"/><path d="M7 8h6M7 11h4" stroke="#3B6D11" stroke-width="1.5" stroke-linecap="round"/></svg>
+          </div>
+          <div class="doc-info">
+            <h4>Annual Meeting Minutes — 2025</h4>
+            <p>Minutes from the 2025 annual POA meeting</p>
+          </div>
+          <div class="doc-arrow"><svg viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        </a>
+
+        <a href="YOUR_GOOGLE_DRIVE_LINK_HERE" target="_blank" class="doc-item fade-up" style="transition-delay:.05s">
+          <div class="doc-icon">
+            <svg viewBox="0 0 20 20" fill="none"><path d="M5 3h10a1 1 0 011 1v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4a1 1 0 011-1z" stroke="#3B6D11" stroke-width="1.5"/><path d="M7 8h6M7 11h4" stroke="#3B6D11" stroke-width="1.5" stroke-linecap="round"/></svg>
+          </div>
+          <div class="doc-info">
+            <h4>Annual Meeting Minutes — 2024</h4>
+            <p>Minutes from the 2024 annual POA meeting</p>
+          </div>
+          <div class="doc-arrow"><svg viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        </a>
+
+      </div>
+    </div>
+
+    <!-- FINANCIAL -->
+    <div class="doc-group">
+      <div class="doc-group-title">Financial documents</div>
+      <div class="doc-list">
+
+        <a href="YOUR_GOOGLE_DRIVE_LINK_HERE" target="_blank" class="doc-item fade-up">
+          <div class="doc-icon">
+            <svg viewBox="0 0 20 20" fill="none"><path d="M5 3h10a1 1 0 011 1v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4a1 1 0 011-1z" stroke="#3B6D11" stroke-width="1.5"/><path d="M7 8h6M7 11h6M7 14h4" stroke="#3B6D11" stroke-width="1.5" stroke-linecap="round"/></svg>
+          </div>
+          <div class="doc-info">
+            <h4>Annual Budget — 2025</h4>
+            <p>Approved budget for the current fiscal year</p>
+          </div>
+          <div class="doc-arrow"><svg viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        </a>
+
+        <a href="YOUR_GOOGLE_DRIVE_LINK_HERE" target="_blank" class="doc-item fade-up" style="transition-delay:.05s">
+          <div class="doc-icon">
+            <svg viewBox="0 0 20 20" fill="none"><path d="M5 3h10a1 1 0 011 1v12a1 1 0 01-1 1H5a1 1 0 01-1-1V4a1 1 0 011-1z" stroke="#3B6D11" stroke-width="1.5"/><path d="M7 8h6M7 11h6M7 14h4" stroke="#3B6D11" stroke-width="1.5" stroke-linecap="round"/></svg>
+          </div>
+          <div class="doc-info">
+            <h4>Financial Statement — 2024</h4>
+            <p>Year-end financial summary for 2024</p>
+          </div>
+          <div class="doc-arrow"><svg viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.4" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+        </a>
+
+      </div>
+    </div>
+
+   
+
+  </section>
+
+  <footer>
+    <p>Dowdle Trace Community &middot; Franklin, NC 28734</p>
+    <a href="mailto:dowdletrace@gmail.com">dowdletrace@gmail.com</a>
+  </footer>
+
+  <script>
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+  </script>
+  <script src="nav.js"></script>
+</body>
+</html>

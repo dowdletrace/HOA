@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Announcements — Dowdle Trace</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+   <!-- Shared navigation styles -->
+  <link rel="stylesheet" href="nav.css">
+  <style>
+    .announce-list { display: flex; flex-direction: column; gap: 14px; }
+    .announce-item {
+      display: flex; gap: 20px; align-items: flex-start;
+      background: var(--gray-50); border-radius: 14px; padding: 22px 24px;
+      transition: transform 0.2s;
+    }
+    .announce-item:hover { transform: translateY(-1px); }
+    .announce-item.pinned {
+      border: 1.5px solid #FCA5A5;
+      background: #FFF9F9;
+    }
+    .announce-date { min-width: 52px; text-align: center; padding-top: 2px; flex-shrink: 0; }
+    .announce-date .month { font-size: 10px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--green-mid); display: block; }
+    .announce-date .day { font-family: var(--font-display); font-size: 28px; font-weight: 400; color: var(--gray-900); line-height: 1.1; display: block; }
+    .announce-sep { width: 1px; background: var(--gray-200); align-self: stretch; flex-shrink: 0; }
+    .announce-body { flex: 1; }
+    .announce-meta { display: flex; align-items: center; gap: 8px; margin-bottom: 6px; flex-wrap: wrap; }
+    .announce-body h3 { font-size: 16px; font-weight: 500; color: var(--gray-900); margin-bottom: 6px; }
+    .announce-body p { font-size: 14px; color: var(--gray-500); line-height: 1.65; margin-bottom: 10px; }
+    .pin-label { font-size: 10px; font-weight: 500; letter-spacing: 0.08em; text-transform: uppercase; color: #DC2626; }
+    .filter-bar { display: flex; gap: 8px; margin-bottom: 28px; flex-wrap: wrap; }
+    .filter-btn {
+      font-size: 12px; font-weight: 500; padding: 6px 14px;
+      border-radius: 20px; border: 1px solid var(--gray-200);
+      background: var(--white); color: var(--gray-500);
+      cursor: pointer; transition: all 0.15s; font-family: var(--font-body);
+    }
+    .filter-btn:hover, .filter-btn.active { background: var(--green-light); color: var(--green-deep); border-color: var(--green-light); }
+  .page-header {
+  text-align: center;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+  </style>
+</head>
+<body>
+
+<nav class="navbar">
+  <div class="nav-left">
+    <button class="nav-toggle" aria-label="Toggle navigation">☰</button>
+    <a href="index.html" class="nav-logo">Dowdle Trace</a>
+  </div>
+
+  <ul class="nav-links">
+    <li><a href="index.html">Home</a></li>
+    <li><a href="announcements.html" class="active">Announcements</a></li>
+    <li><a href="events.html">Events</a></li>
+    <li><a href="community.html">Our community</a></li>
+    <li><a href="documents.html">HOA documents</a></li>
+  </ul>
+</nav>
+
+
+  <div class="page-header">
+    <div class="page-header-eyebrow">Stay in the loop</div>
+    <h1>Announcements</h1>
+    <p>Important updates, notices, and news for the Dowdle Trace community.</p>
+  </div>
+
+  <section>
+    <div class="filter-bar">
+      <button class="filter-btn active" onclick="filterAnnouncements('all', this)">All</button>
+      <button class="filter-btn" onclick="filterAnnouncements('urgent', this)">Urgent</button>
+      <button class="filter-btn" onclick="filterAnnouncements('social', this)">Social</button>
+      <button class="filter-btn" onclick="filterAnnouncements('info', this)">General info</button>
+    </div>
+
+    <div class="announce-list" id="announce-list">
+
+      <div class="announce-item pinned fade-up" data-category="urgent">
+        <div class="announce-date">
+          <span class="month">Apr</span>
+          <span class="day">18</span>
+        </div>
+        <div class="announce-sep"></div>
+        <div class="announce-body">
+          <div class="announce-meta">
+            <span class="pin-label">&#9650; Pinned</span>
+            <span class="tag urgent">Urgent</span>
+          </div>
+          <h3>Water service maintenance — April 22</h3>
+          <p>Scheduled water service maintenance will affect the neighborhood on April 22 from 9am–1pm. Please plan accordingly and store water in advance if needed. Contact the board with any questions.</p>
+        </div>
+      </div>
+
+      <div class="announce-item fade-up" data-category="info" style="transition-delay:.05s">
+        <div class="announce-date">
+          <span class="month">July</span>
+          <span class="day">26</span>
+        </div>
+        <div class="announce-sep"></div>
+        <div class="announce-body">
+          <div class="announce-meta"><span class="tag info">General info</span></div>
+          <h3>Annual HOA meeting — save the date</h3>
+          <p>The annual Dowdle Trace POA meeting will be held in July. Exact date and location to follow. All members in good standing are encouraged to attend. Agenda items will be shared in advance.</p>
+        </div>
+      </div>
+
+      <div class="announce-item fade-up" data-category="social" style="transition-delay:.1s">
+        <div class="announce-date">
+          <span class="month">May</span>
+          <span class="day">11</span>
+        </div>
+        <div class="announce-sep"></div>
+        <div class="announce-body">
+          <div class="announce-meta"><span class="tag">Social</span></div>
+          <h3>A Porch Evening</h3>
+          <p>Libations, Music Jam, Yummy Nibbles — RSVP via the calendar so we can plan accordingly. All are welcome to join!</p>
+        </div>
+      </div>
+
+      
+
+    </div>
+  </section>
+
+  <footer>
+    <p>Dowdle Trace Community &middot; Franklin, NC 28734</p>
+    <a href="mailto:dowdletrace@gmail.com">dowdletrace@gmail.com</a>
+  </footer>
+
+  <script>
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+    function filterAnnouncements(category, btn) {
+      document.querySelectorAll('.filter-btn').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+      document.querySelectorAll('.announce-item').forEach(item => {
+        item.style.display = (category === 'all' || item.dataset.category === category) ? 'flex' : 'none';
+      });
+    }
+  </script>
+  <script src="nav.js"></script>
+</body>
+</html>
