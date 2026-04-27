@@ -180,6 +180,11 @@ hr.divider {
   color: #92400E;
 }
 
+.tag.restricted {
+  background: #FEE2E2;
+  color: #991B1B;
+}
+
 /* ── FOOTER ── */
 footer {
   background: var(--gray-50);
