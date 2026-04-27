@@ -274,6 +274,33 @@
   <div class="lightbox-overlay" id="lightbox">
   <button class="lightbox-close" id="lightbox-close">&times;</button>
   <img id="lightbox-img" src="">
+  <script>
+document.addEventListener("DOMContentLoaded", () => {
+  const triggers = document.querySelectorAll(".lightbox-trigger");
+  const overlay = document.getElementById("lightbox");
+  const overlayImg = document.getElementById("lightbox-img");
+  const closeBtn = document.getElementById("lightbox-close");
+
+  triggers.forEach(trigger => {
+    trigger.addEventListener("click", () => {
+      const fullSrc = trigger.getAttribute("data-full");
+      overlayImg.src = fullSrc;
+      overlay.classList.add("active");
+    });
+  });
+
+  closeBtn.addEventListener("click", () => {
+    overlay.classList.remove("active");
+  });
+
+  overlay.addEventListener("click", (e) => {
+    if (e.target === overlay) {
+      overlay.classList.remove("active");
+    }
+  });
+});
+</script>
+
 </div>
 
 </body>
