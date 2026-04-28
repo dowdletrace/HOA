@@ -64,6 +64,7 @@
       background: var(--green-light);
       display: flex; align-items: center; justify-content: center;
       flex-shrink: 0;
+      
     }
     .doc-icon svg { width: 18px; height: 18px; }
     .doc-info { flex: 1; }
@@ -92,6 +93,25 @@
   align-items: center;
   justify-content: center;
 }
+
+.hero-btn {
+      display: inline-block;
+      background: var(--white);
+      color: var(--green-mid);
+      font-family: var(--font-body);
+      font-size: 13px;
+      font-weight: 500;
+      padding: 11px 24px;
+      border-radius: 8px;
+      text-decoration: none;
+      transition: opacity 0.2s;
+    }
+    .hero-btn:hover { opacity: 0.9; }
+    .cards-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 16px;
+    }
 
   </style>
 </head>
