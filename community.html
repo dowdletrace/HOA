@@ -124,6 +124,24 @@
   justify-content: center;
 }
 
+/* ── FAQ ── */
+    .faq-list { display: flex; flex-direction: column; gap: 8px; }
+    .faq-item { background: var(--gray-50); border-radius: 12px; overflow: hidden; }
+    .faq-question {
+      width: 100%; display: flex; justify-content: space-between; align-items: center;
+      padding: 16px 20px; background: none; border: none; cursor: pointer;
+      font-family: var(--font-body); font-size: 15px; font-weight: 500;
+      color: var(--gray-900); text-align: left; gap: 12px;
+      transition: color 0.2s;
+    }
+    .faq-question:hover { color: var(--green-mid); }
+    .faq-chevron { width: 18px; height: 18px; flex-shrink: 0; color: var(--gray-500); transition: transform 0.25s; }
+    .faq-item.open .faq-chevron { transform: rotate(180deg); }
+    .faq-answer { display: none; padding: 0 20px 16px; }
+    .faq-item.open .faq-answer { display: block; }
+    .faq-answer p { font-size: 14px; color: var(--gray-500); line-height: 1.7; }
+    .faq-answer a { color: var(--green-mid); text-decoration: none; }
+    .faq-answer a:hover { text-decoration: underline; }
   </style>
 </head>
 <body>
@@ -315,6 +333,48 @@
     </div>
   </section>
 
+  <section>
+    <div class="section-label">Common questions</div>
+    <div class="section-title">Frequently asked questions</div>
+    <div class="faq-list">
+      <div class="faq-item fade-up">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          How do I pay my annual dues?
+          <svg class="faq-chevron" viewBox="0 0 20 20" fill="none"><path d="M5 7l5 5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <div class="faq-answer"><p>Annual dues can be paid by check made out to Dowdle Trace POA and mailed to P.O. Box 1224, Franklin NC 28734. Contact the board at <a href="mailto:dowdletrace@gmail.com">dowdletrace@gmail.com</a> if you have questions about your account.</p></div>
+      </div>
+      <div class="faq-item fade-up" style="transition-delay:.05s">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          Who do I contact about a road or maintenance issue?
+          <svg class="faq-chevron" viewBox="0 0 20 20" fill="none"><path d="M5 7l5 5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <div class="faq-answer"><p>Email the board at <a href="mailto:dowdletrace@gmail.com">dowdletrace@gmail.com</a> with a description and photo if possible. Urgent issues affecting safety will be prioritized. For road emergencies, contact Macon County directly.</p></div>
+      </div>
+      <div class="faq-item fade-up" style="transition-delay:.1s">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          When are the annual HOA meetings held?
+          <svg class="faq-chevron" viewBox="0 0 20 20" fill="none"><path d="M5 7l5 5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <div class="faq-answer"><p>The annual POA meeting is typically held in May. Date, time, and location are announced via the website and email list in advance. All members in good standing are encouraged to attend.</p></div>
+      </div>
+      <div class="faq-item fade-up" style="transition-delay:.15s">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          How do I get access to the HOA documents?
+          <svg class="faq-chevron" viewBox="0 0 20 20" fill="none"><path d="M5 7l5 5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <div class="faq-answer"><p>Documents are available to Dowdle Trace POA members in good standing. Email <a href="mailto:dowdletrace@gmail.com">dowdletrace@gmail.com</a> with your name and address to request access — usually sorted within a day or two.</p></div>
+      </div>
+      <div class="faq-item fade-up" style="transition-delay:.2s">
+        <button class="faq-question" onclick="toggleFaq(this)">
+          How do I get community announcements by email?
+          <svg class="faq-chevron" viewBox="0 0 20 20" fill="none"><path d="M5 7l5 5 5-5" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </button>
+        <div class="faq-answer"><p>Email <a href="mailto:dowdletrace@gmail.com?subject=Subscribe">dowdletrace@gmail.com</a> with the subject line <strong>Subscribe</strong> and we'll add you to the announcements list.</p></div>
+      </div>
+    </div>
+  </section>
+
   <footer>
     <p>Dowdle Trace Community &middot; Franklin, NC 28734</p>
     <a href="mailto:dowdletrace@gmail.com">dowdletrace@gmail.com</a>
@@ -355,6 +415,13 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 });
+
+ function toggleFaq(btn) {
+      const item = btn.closest('.faq-item');
+      const isOpen = item.classList.contains('open');
+      document.querySelectorAll('.faq-item').forEach(i => i.classList.remove('open'));
+      if (!isOpen) item.classList.add('open');
+    }
 </script>
 
 </div>
