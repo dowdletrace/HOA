@@ -266,6 +266,32 @@ footer a:hover { text-decoration: underline; }
 
 .lightbox-close:hover { color: var(--white); }
 
+.subscribe-card {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 20px;
+  background: var(--green-dark);
+  border-radius: 14px;
+  padding: 20px 24px;
+  margin-bottom: 32px;
+}
+.subscribe-left { display: flex; align-items: center; gap: 14px; }
+.subscribe-icon {
+  width: 40px; height: 40px; border-radius: 50%;
+  background: rgba(255,255,255,0.12);
+  display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+.subscribe-icon svg { width: 18px; height: 18px; }
+.subscribe-text h4 { font-size: 14px; font-weight: 500; color: var(--white); margin-bottom: 3px; }
+.subscribe-text p { font-size: 13px; color: rgba(255,255,255,0.65); line-height: 1.5; }
+.subscribe-btn {
+  display: inline-block; background: var(--white); color: var(--green-dark);
+  font-size: 13px; font-weight: 500; padding: 9px 20px; border-radius: 8px;
+  text-decoration: none; white-space: nowrap; transition: opacity 0.2s; flex-shrink: 0;
+}
+.subscribe-btn:hover { opacity: 0.9; }
+@media (max-width: 600px) { .subscribe-card { flex-direction: column; align-items: flex-start; } }
 
 /* ── ANIMATIONS ── */
 .fade-up {
