@@ -1,0 +1,249 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Architectural Review Request — Dowdle Trace</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .form-wrap { max-width: 640px; }
+    .arf-notice {
+      background: #EAF3DE;
+      border-radius: 10px;
+      padding: 14px 18px;
+      font-size: 13px;
+      color: #27500A;
+      line-height: 1.6;
+      margin-bottom: 24px;
+    }
+    .form-card {
+      background: var(--gray-50);
+      border-radius: 14px;
+      padding: 28px 28px;
+      margin-bottom: 14px;
+    }
+    .form-section-title {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--green-mid);
+      margin-bottom: 16px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--gray-200);
+    }
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 14px; }
+    .form-row.full { grid-template-columns: 1fr; }
+    .form-field { display: flex; flex-direction: column; gap: 5px; }
+    .form-label { font-size: 12px; font-weight: 500; color: var(--gray-500); }
+    .form-required { color: #E24B4A; margin-left: 2px; }
+    .form-input {
+      height: 38px;
+      border: 1px solid var(--gray-200);
+      border-radius: 8px;
+      padding: 0 12px;
+      font-size: 13px;
+      font-family: var(--font-body);
+      background: var(--white);
+      color: var(--gray-900);
+      transition: border-color 0.2s;
+    }
+    .form-input:focus { outline: none; border-color: var(--green-mid); }
+    .form-select {
+      height: 38px;
+      border: 1px solid var(--gray-200);
+      border-radius: 8px;
+      padding: 0 12px;
+      font-size: 13px;
+      font-family: var(--font-body);
+      background: var(--white);
+      color: var(--gray-900);
+      width: 100%;
+      transition: border-color 0.2s;
+    }
+    .form-select:focus { outline: none; border-color: var(--green-mid); }
+    .form-textarea {
+      border: 1px solid var(--gray-200);
+      border-radius: 8px;
+      padding: 10px 12px;
+      font-size: 13px;
+      font-family: var(--font-body);
+      background: var(--white);
+      color: var(--gray-900);
+      resize: vertical;
+      min-height: 100px;
+      transition: border-color 0.2s;
+    }
+    .form-textarea:focus { outline: none; border-color: var(--green-mid); }
+    .form-submit {
+      background: var(--green-mid);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 12px 24px;
+      font-size: 14px;
+      font-weight: 500;
+      cursor: pointer;
+      font-family: var(--font-body);
+      width: 100%;
+      transition: opacity 0.2s;
+    }
+    .form-submit:hover { opacity: 0.88; }
+    .success-message {
+      display: none;
+      background: #EAF3DE;
+      border-radius: 14px;
+      padding: 24px 28px;
+      text-align: center;
+      margin-top: 16px;
+    }
+    .success-message h3 { font-size: 18px; font-weight: 500; color: #27500A; margin-bottom: 8px; }
+    .success-message p { font-size: 14px; color: var(--green-mid); line-height: 1.6; }
+    @media (max-width: 600px) {
+      .form-row { grid-template-columns: 1fr; }
+      .form-card { padding: 20px; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="index.html" class="nav-logo">Dowdle Trace</a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="announcements.html">Announcements</a></li>
+      <li><a href="events.html">Events</a></li>
+      <li><a href="community.html">Our community</a></li>
+      <li><a href="documents.html" class="active">HOA documents</a></li>
+    </ul>
+    <a href="mailto:dowdletrace@gmail.com" class="nav-cta">Request access</a>
+  </nav>
+
+  <div class="page-header">
+    <div class="page-header-eyebrow">Member resources</div>
+    <h1>Architectural Review Request</h1>
+    <p>Submit for board approval before beginning any exterior modifications, construction, or landscaping changes.</p>
+  </div>
+
+  <section>
+    <div class="form-wrap">
+
+      <div class="arf-notice">
+        Requests are typically reviewed within 30 days. You will be contacted at the email address provided with the board's decision. <strong>Do not begin work until written approval is received.</strong>
+      </div>
+
+      <form action="https://formspree.io/f/xxxxxxxx" method="POST" id="arf-form">
+
+        <div class="form-card">
+          <div class="form-section-title">Homeowner information</div>
+          <div class="form-row">
+            <div class="form-field">
+              <label class="form-label">Full name <span class="form-required">*</span></label>
+              <input class="form-input" type="text" name="name" required placeholder="Jane Smith" />
+            </div>
+            <div class="form-field">
+              <label class="form-label">Lot / address <span class="form-required">*</span></label>
+              <input class="form-input" type="text" name="address" required placeholder="123 Dowdle Trace" />
+            </div>
+          </div>
+          <div class="form-row">
+            <div class="form-field">
+              <label class="form-label">Email address <span class="form-required">*</span></label>
+              <input class="form-input" type="email" name="email" required placeholder="jane@email.com" />
+            </div>
+            <div class="form-field">
+              <label class="form-label">Phone number</label>
+              <input class="form-input" type="tel" name="phone" placeholder="(828) 555-0100" />
+            </div>
+          </div>
+        </div>
+
+        <div class="form-card">
+          <div class="form-section-title">Project details</div>
+          <div class="form-row">
+            <div class="form-field">
+              <label class="form-label">Project type <span class="form-required">*</span></label>
+              <select class="form-select" name="project_type" required>
+                <option value="">Select a type...</option>
+                <option>New construction</option>
+                <option>Addition / expansion</option>
+                <option>Exterior renovation</option>
+                <option>Fence or wall</option>
+                <option>Deck or patio</option>
+                <option>Shed or outbuilding</option>
+                <option>Landscaping</option>
+                <option>Driveway or paving</option>
+                <option>Other</option>
+              </select>
+            </div>
+            <div class="form-field">
+              <label class="form-label">Estimated start date</label>
+              <input class="form-input" type="date" name="start_date" />
+            </div>
+          </div>
+          <div class="form-row full">
+            <div class="form-field">
+              <label class="form-label">Project description <span class="form-required">*</span></label>
+              <textarea class="form-textarea" name="description" required
+                placeholder="Describe the project including materials, dimensions, and colors where applicable..."></textarea>
+            </div>
+          </div>
+        </div>
+
+        <input type="hidden" name="_subject" value="New Architectural Review Request — Dowdle Trace" />
+
+        <button type="submit" class="form-submit">Submit request to architectural review board</button>
+
+      </form>
+
+      <div class="success-message" id="success-message">
+        <h3>Request submitted!</h3>
+        <p>Thank you — your architectural review request has been received. The board will be in touch within 30 days at the email address you provided.</p>
+        <a href="documents.html" style="display:inline-block;margin-top:16px;font-size:13px;color:var(--green-mid);text-decoration:none;font-weight:500;">← Back to documents</a>
+      </div>
+
+    </div>
+  </section>
+
+  <footer>
+    <p>Dowdle Trace Community · Franklin, NC 28734</p>
+    <a href="mailto:dowdletrace@gmail.com">dowdletrace@gmail.com</a>
+  </footer>
+
+  <script>
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(e => { if (e.isIntersecting) e.target.classList.add('visible'); });
+    }, { threshold: 0.1 });
+    document.querySelectorAll('.fade-up').forEach(el => observer.observe(el));
+
+    const form = document.getElementById('arf-form');
+    form.addEventListener('submit', async e => {
+      e.preventDefault();
+      const btn = form.querySelector('button[type="submit"]');
+      btn.textContent = 'Submitting...';
+      btn.disabled = true;
+      try {
+        const res = await fetch(form.action, {
+          method: 'POST',
+          body: new FormData(form),
+          headers: { 'Accept': 'application/json' }
+        });
+        if (res.ok) {
+          form.style.display = 'none';
+          document.getElementById('success-message').style.display = 'block';
+        } else {
+          btn.textContent = 'Something went wrong — please try again';
+          btn.disabled = false;
+        }
+      } catch {
+        btn.textContent = 'Something went wrong — please try again';
+        btn.disabled = false;
+      }
+    });
+  </script>
+
+</body>
+</html>
