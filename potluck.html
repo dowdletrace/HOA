@@ -152,7 +152,7 @@
 
   <div class="page-header" style="text-align:center;">
     <div class="page-header-eyebrow">Community gathering</div>
-    <h1>Potluck Sign-Up</h1>
+    <h1>HOA Potluck Sign-Up</h1>
     <p style="margin:0 auto;">Claim an item below so we don't end up with three potato salads!</p>
   </div>
 
@@ -161,7 +161,7 @@
 
       <div class="event-banner">
         <div>
-          <h3 id="event-name">Summer Cookout</h3>
+          <h3 id="event-name">Annual Meeting Potluck</h3>
           <p id="event-details">Sunday, July 26 · 4:00 PM · Community common area</p>
         </div>
         <a href="events.html" style="font-size:12px;color:rgba(255,255,255,0.65);text-decoration:none;white-space:nowrap;">← Back to events</a>
@@ -282,7 +282,6 @@
     }
 
     function openModal(item) {
-      console.log('Opening modal for:', item);
       claimingItem = item;
       document.getElementById('modal-item-name').textContent = item;
       document.getElementById('modal-name-input').value = '';
@@ -315,7 +314,6 @@
 async function submitItem(item, name) {
   try {
     const payload = { data: [{ "item": item, "name": name }] };
-    console.log('Sending:', JSON.stringify(payload));
     await fetch(SCRIPT_URL, {
       method: 'POST',
       headers: { 'Content-Type': 'application/json' },
