@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Potluck Sign-Up — Dowdle Trace</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <style>
+    .potluck-wrap { max-width: 640px; margin: 0 auto; }
+
+    .event-banner {
+      background: var(--green-dark);
+      border-radius: 14px;
+      padding: 20px 24px;
+      margin-bottom: 24px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 16px;
+    }
+    .event-banner h3 { font-size: 16px; font-weight: 500; color: var(--white); margin-bottom: 4px; }
+    .event-banner p { font-size: 13px; color: rgba(255,255,255,0.65); }
+
+    .item-list { display: flex; flex-direction: column; gap: 10px; margin-bottom: 24px; }
+
+    .item-row {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      background: var(--gray-50);
+      border-radius: 12px;
+      padding: 14px 18px;
+      border: 1px solid transparent;
+      transition: border-color 0.2s;
+    }
+    .item-row.claimed { background: #F0FDF4; border-color: #BBF7D0; }
+    .item-row.claimed .item-name { color: var(--gray-500); }
+
+    .item-icon {
+      width: 36px; height: 36px; border-radius: 8px;
+      background: var(--green-light);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 16px; flex-shrink: 0;
+    }
+    .item-row.claimed .item-icon { background: #DCFCE7; }
+
+    .item-info { flex: 1; }
+    .item-name { font-size: 14px; font-weight: 500; color: var(--gray-900); }
+    .item-claimant { font-size: 12px; color: var(--green-mid); margin-top: 2px; }
+
+    .claim-btn {
+      font-size: 12px; font-weight: 500;
+      padding: 7px 14px; border-radius: 6px;
+      border: 1px solid var(--green-mid);
+      background: none; color: var(--green-mid);
+      cursor: pointer; font-family: var(--font-body);
+      transition: background 0.15s, color 0.15s;
+      white-space: nowrap;
+    }
+    .claim-btn:hover { background: var(--green-mid); color: var(--white); }
+    .claimed-badge {
+      font-size: 11px; font-weight: 500;
+      color: #16A34A;
+      display: flex; align-items: center; gap: 4px;
+    }
+
+    .add-section {
+      background: var(--gray-50);
+      border-radius: 14px;
+      padding: 20px 22px;
+      margin-bottom: 24px;
+    }
+    .add-section h4 { font-size: 14px; font-weight: 500; color: var(--gray-900); margin-bottom: 14px; }
+    .add-row { display: grid; grid-template-columns: 1fr 1fr auto; gap: 10px; align-items: end; }
+    .add-input {
+      height: 36px; border: 1px solid var(--gray-200); border-radius: 8px;
+      padding: 0 10px; font-size: 13px; font-family: var(--font-body);
+      background: var(--white); color: var(--gray-900);
+    }
+    .add-input:focus { outline: none; border-color: var(--green-mid); }
+    .add-btn {
+      height: 36px; padding: 0 16px;
+      background: var(--green-mid); color: var(--white);
+      border: none; border-radius: 8px;
+      font-size: 13px; font-weight: 500;
+      font-family: var(--font-body); cursor: pointer;
+      white-space: nowrap; transition: opacity 0.2s;
+    }
+    .add-btn:hover { opacity: 0.88; }
+    .add-label { font-size: 11px; font-weight: 500; color: var(--gray-500); margin-bottom: 4px; display: block; }
+
+    .modal-overlay {
+      display: none; position: fixed; inset: 0;
+      background: rgba(0,0,0,0.5); z-index: 200;
+      align-items: center; justify-content: center; padding: 20px;
+    }
+    .modal-overlay.active { display: flex; }
+    .modal {
+      background: var(--white); border-radius: 14px;
+      padding: 28px; width: 100%; max-width: 380px;
+    }
+    .modal h3 { font-size: 16px; font-weight: 500; margin-bottom: 6px; }
+    .modal p { font-size: 13px; color: var(--gray-500); margin-bottom: 20px; line-height: 1.55; }
+    .modal-field { display: flex; flex-direction: column; gap: 5px; margin-bottom: 16px; }
+    .modal-label { font-size: 12px; font-weight: 500; color: var(--gray-500); }
+    .modal-input {
+      height: 38px; border: 1px solid var(--gray-200); border-radius: 8px;
+      padding: 0 12px; font-size: 14px; font-family: var(--font-body);
+      color: var(--gray-900);
+    }
+    .modal-input:focus { outline: none; border-color: var(--green-mid); }
+    .modal-btns { display: flex; gap: 10px; }
+    .modal-cancel {
+      flex: 1; height: 38px; border: 1px solid var(--gray-200);
+      border-radius: 8px; background: none; color: var(--gray-500);
+      font-size: 13px; font-family: var(--font-body); cursor: pointer;
+    }
+    .modal-confirm {
+      flex: 2; height: 38px; background: var(--green-mid); color: var(--white);
+      border: none; border-radius: 8px; font-size: 13px; font-weight: 500;
+      font-family: var(--font-body); cursor: pointer; transition: opacity 0.2s;
+    }
+    .modal-confirm:hover { opacity: 0.88; }
+
+    .status-bar {
+      font-size: 13px; color: var(--gray-500);
+      text-align: center; padding: 12px;
+    }
+
+    @media (max-width: 600px) {
+      .add-row { grid-template-columns: 1fr 1fr; }
+      .add-btn { grid-column: 1 / -1; width: 100%; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="index.html" class="nav-logo">Dowdle Trace</a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="announcements.html">Announcements</a></li>
+      <li><a href="events.html" class="active">Events</a></li>
+      <li><a href="community.html">Our community</a></li>
+      <li><a href="documents.html">HOA documents</a></li>
+    </ul>
+    <a href="mailto:dowdletrace@gmail.com" class="nav-cta">Request access</a>
+  </nav>
+
+  <div class="page-header" style="text-align:center;">
+    <div class="page-header-eyebrow">Community gathering</div>
+    <h1>Potluck Sign-Up</h1>
+    <p style="margin:0 auto;">Claim an item below so we don't end up with three potato salads!</p>
+  </div>
+
+  <section>
+    <div class="potluck-wrap">
+
+      <div class="event-banner">
+        <div>
+          <h3 id="event-name">Summer Cookout</h3>
+          <p id="event-details">Saturday, June 7 · 4:00 PM · Community common area</p>
+        </div>
+        <a href="events.html" style="font-size:12px;color:rgba(255,255,255,0.65);text-decoration:none;white-space:nowrap;">← Back to events</a>
+      </div>
+
+      <div class="section-label">What's needed</div>
+      <div class="section-title" style="margin-bottom:16px;">Claim your item</div>
+
+      <div class="item-list" id="item-list">
+        <div class="status-bar">Loading sign-up list...</div>
+      </div>
+
+      <div class="add-section">
+        <h4>Bringing something else?</h4>
+        <div class="add-row">
+          <div>
+            <span class="add-label">Your dish</span>
+            <input class="add-input" type="text" id="custom-dish" placeholder="e.g. Pasta salad" />
+          </div>
+          <div>
+            <span class="add-label">Your name</span>
+            <input class="add-input" type="text" id="custom-name" placeholder="e.g. Susan" />
+          </div>
+          <button class="add-btn" onclick="addCustomItem()">Add</button>
+        </div>
+      </div>
+
+    </div>
+  </section>
+
+  <!-- CLAIM MODAL -->
+  <div class="modal-overlay" id="modal">
+    <div class="modal">
+      <h3>Claim this item</h3>
+      <p id="modal-item-desc">Enter your name to claim <strong id="modal-item-name"></strong>.</p>
+      <div class="modal-field">
+        <label class="modal-label">Your name</label>
+        <input class="modal-input" type="text" id="modal-name-input" placeholder="e.g. Susan" />
+      </div>
+      <div class="modal-btns">
+        <button class="modal-cancel" onclick="closeModal()">Cancel</button>
+        <button class="modal-confirm" onclick="confirmClaim()">Claim it</button>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <p>Dowdle Trace Community · Franklin, NC 28734</p>
+    <a href="mailto:dowdletrace@gmail.com">dowdletrace@gmail.com</a>
+  </footer>
+
+  <script>
+    // ── REPLACE THIS WITH YOUR APPS SCRIPT URL ──
+    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwp09Q1VC7qBmYG03dJDn6UakMl_RsYYAJ7PYLYI8lCGveSH72g2GK9cjNW6tqRFHKQSw/exec';
+
+    const FIXED_ITEMS = ['Drinks', 'Chips', 'Plates & napkins', 'Rolls', 'Dessert'];
+    const EMOJIS = { 'Drinks': '🥤', 'Chips': '🥔', 'Plates & napkins': '🍽️', 'Rolls': '🍞', 'Dessert': '🍰' };
+
+    let allItems = [];
+    let claimingItem = null;
+
+    async function loadItems() {
+      try {
+        const res = await fetch(SCRIPT_URL + '?action=get');
+        const data = await res.json();
+        allItems = data;
+        renderItems();
+      } catch(e) {
+        document.getElementById('item-list').innerHTML = '<div class="status-bar">Unable to load list — please refresh.</div>';
+      }
+    }
+
+    function renderItems() {
+      const list = document.getElementById('item-list');
+      const claimed = allItems.map(i => i.item);
+
+      let html = '';
+
+      // Fixed items
+      FIXED_ITEMS.forEach(item => {
+        const match = allItems.find(i => i.item === item);
+        if (match) {
+          html += `
+            <div class="item-row claimed">
+              <div class="item-icon">${EMOJIS[item] || '🍴'}</div>
+              <div class="item-info">
+                <div class="item-name">${item}</div>
+                <div class="item-claimant">Claimed by ${match.name}</div>
+              </div>
+              <div class="claimed-badge">✓ Taken</div>
+            </div>`;
+        } else {
+          html += `
+            <div class="item-row">
+              <div class="item-icon">${EMOJIS[item] || '🍴'}</div>
+              <div class="item-info">
+                <div class="item-name">${item}</div>
+              </div>
+              <button class="claim-btn" onclick="openModal('${item}')">I'll bring this</button>
+            </div>`;
+        }
+      });
+
+      // Custom items
+      allItems.filter(i => !FIXED_ITEMS.includes(i.item)).forEach(i => {
+        html += `
+          <div class="item-row claimed">
+            <div class="item-icon">🍴</div>
+            <div class="item-info">
+              <div class="item-name">${i.item}</div>
+              <div class="item-claimant">Brought by ${i.name}</div>
+            </div>
+            <div class="claimed-badge">✓ Added</div>
+          </div>`;
+      });
+
+      list.innerHTML = html;
+    }
+
+    function openModal(item) {
+      claimingItem = item;
+      document.getElementById('modal-item-name').textContent = item;
+      document.getElementById('modal-name-input').value = '';
+      document.getElementById('modal').classList.add('active');
+      setTimeout(() => document.getElementById('modal-name-input').focus(), 100);
+    }
+
+    function closeModal() {
+      document.getElementById('modal').classList.remove('active');
+      claimingItem = null;
+    }
+
+    async function confirmClaim() {
+      const name = document.getElementById('modal-name-input').value.trim();
+      if (!name) { document.getElementById('modal-name-input').focus(); return; }
+      closeModal();
+      await submitItem(claimingItem, name);
+    }
+
+    async function addCustomItem() {
+      const dish = document.getElementById('custom-dish').value.trim();
+      const name = document.getElementById('custom-name').value.trim();
+      if (!dish || !name) { alert('Please enter both a dish name and your name.'); return; }
+      document.getElementById('custom-dish').value = '';
+      document.getElementById('custom-name').value = '';
+      await submitItem(dish, name);
+    }
+
+    async function submitItem(item, name) {
+      try {
+        await fetch(SCRIPT_URL, {
+          method: 'POST',
+          body: JSON.stringify({ item, name }),
+          headers: { 'Content-Type': 'application/json' }
+        });
+        await loadItems();
+      } catch(e) {
+        alert('Something went wrong — please try again.');
+      }
+    }
+
+    document.getElementById('modal').addEventListener('click', e => {
+      if (e.target === document.getElementById('modal')) closeModal();
+    });
+
+    document.getElementById('modal-name-input').addEventListener('keydown', e => {
+      if (e.key === 'Enter') confirmClaim();
+    });
+
+    loadItems();
+  </script>
+
+</body>
+</html>
