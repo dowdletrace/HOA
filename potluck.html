@@ -215,7 +215,7 @@
 
   <script>
     // ── REPLACE THIS WITH YOUR APPS SCRIPT URL ──
-    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbwp09Q1VC7qBmYG03dJDn6UakMl_RsYYAJ7PYLYI8lCGveSH72g2GK9cjNW6tqRFHKQSw/exec';
+    const SCRIPT_URL = 'https://sheetdb.io/api/v1/h9s2m1bgjf49t';
 
     const FIXED_ITEMS = ['Drinks', 'Chips', 'Plates & napkins', 'Rolls', 'Dessert'];
     const EMOJIS = { 'Drinks': '🥤', 'Chips': '🥔', 'Plates & napkins': '🍽️', 'Rolls': '🍞', 'Dessert': '🍰' };
@@ -224,15 +224,15 @@
     let claimingItem = null;
 
     async function loadItems() {
-      try {
-        const res = await fetch(SCRIPT_URL + '?action=get');
-        const data = await res.json();
-        allItems = data;
-        renderItems();
-      } catch(e) {
-        document.getElementById('item-list').innerHTML = '<div class="status-bar">Unable to load list — please refresh.</div>';
-      }
-    }
+  try {
+    const res = await fetch(SCRIPT_URL);
+    const data = await res.json();
+    allItems = data;
+    renderItems();
+  } catch(e) {
+    document.getElementById('item-list').innerHTML = '<div class="status-bar">Unable to load list — please refresh.</div>';
+  }
+}
 
     function renderItems() {
       const list = document.getElementById('item-list');
@@ -310,28 +310,14 @@
       await submitItem(dish, name);
     }
 
-   async function submitItem(item, name) {
+  async function submitItem(item, name) {
   try {
-    const form = document.createElement('form');
-    form.method = 'POST';
-    form.action = SCRIPT_URL;
-    form.target = 'hidden-iframe';
-
-    const itemField = document.createElement('input');
-    itemField.name = 'item';
-    itemField.value = item;
-    form.appendChild(itemField);
-
-    const nameField = document.createElement('input');
-    nameField.name = 'name';
-    nameField.value = name;
-    form.appendChild(nameField);
-
-    document.body.appendChild(form);
-    form.submit();
-    document.body.removeChild(form);
-
-    setTimeout(loadItems, 1500);
+    await fetch(SCRIPT_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ data: [{ item: item, name: name }] })
+    });
+    await loadItems();
   } catch(e) {
     alert('Something went wrong — please try again.');
   }
