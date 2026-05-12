@@ -162,7 +162,7 @@
       <div class="event-banner">
         <div>
           <h3 id="event-name">Summer Cookout</h3>
-          <p id="event-details">Sunday, July 27 · 4:00 PM · Community common area</p>
+          <p id="event-details">Sunday, July 26 · 4:00 PM · Community common area</p>
         </div>
         <a href="events.html" style="font-size:12px;color:rgba(255,255,255,0.65);text-decoration:none;white-space:nowrap;">← Back to events</a>
       </div>
@@ -295,12 +295,13 @@
       claimingItem = null;
     }
 
-    async function confirmClaim() {
-      const name = document.getElementById('modal-name-input').value.trim();
-      if (!name) { document.getElementById('modal-name-input').focus(); return; }
-      closeModal();
-      await submitItem(claimingItem, name);
-    }
+   async function confirmClaim() {
+    const name = document.getElementById('modal-name-input').value.trim();
+    if (!name) { document.getElementById('modal-name-input').focus(); return; }
+    const item = claimingItem;
+    closeModal();
+    await submitItem(item, name);
+}
 
     async function addCustomItem() {
       const dish = document.getElementById('custom-dish').value.trim();
