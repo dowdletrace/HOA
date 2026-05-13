@@ -220,7 +220,7 @@
 
   <script>
     // ── REPLACE THIS WITH YOUR APPS SCRIPT URL ──
-    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxuScJcAz26QCa5339DfJQEHgunH2GqrQRhkKLr2gkfuR2tzJMianrYc8ie3gx44w0FzA/exec';
+    const SCRIPT_URL = 'https://sheetdb.io/api/v1/h9s2m1bgjf49t';
 
     const FIXED_ITEMS = ['Soft Drinks', 'Sweet Tea', 'Unsweet Tea', 'Chips', 'Salad', 'Rolls', 'Dessert', 'Additional Protein (ex. meatballs)', 'Side (ex. Corn)'];
     const EMOJIS = { 'Soft Drinks': '🥤', 'Sweet Tea': '🧋', 'Unsweet Tea': '🧋', 'Chips': '🥔', 'Salad': '🥗', 'Rolls': '🍞', 'Dessert': '🍰', 'Additional Protein (ex. meatballs)': '🥩', 'Side (ex. Corn)': '🌽' };
@@ -228,7 +228,7 @@
     let allItems = [];
     let claimingItem = null;
 
-    async function loadItems() {
+async function loadItems() {
   try {
     const res = await fetch(SCRIPT_URL);
     const data = await res.json();
