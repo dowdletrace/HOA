@@ -220,7 +220,7 @@
 
   <script>
     // ── REPLACE THIS WITH YOUR APPS SCRIPT URL ──
-    const SCRIPT_URL = 'https://sheetdb.io/api/v1/h9s2m1bgjf49t';
+    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxuScJcAz26QCa5339DfJQEHgunH2GqrQRhkKLr2gkfuR2tzJMianrYc8ie3gx44w0FzA/exec';
 
     const FIXED_ITEMS = ['Soft Drinks', 'Sweet Tea', 'Unsweet Tea', 'Chips', 'Salad', 'Rolls', 'Dessert', 'Additional Protein (ex. meatballs)', 'Side (ex. Corn)'];
     const EMOJIS = { 'Soft Drinks': '🥤', 'Sweet Tea': '🧋', 'Unsweet Tea': '🧋', 'Chips': '🥔', 'Salad': '🥗', 'Rolls': '🍞', 'Dessert': '🍰', 'Additional Protein (ex. meatballs)': '🥩', 'Side (ex. Corn)': '🌽' };
@@ -230,7 +230,7 @@
 
 async function loadItems() {
   try {
-    const res = await fetch(SCRIPT_URL);
+    const res = await fetch(SCRIPT_URL, { credentials: 'omit' });
     const data = await res.json();
     allItems = data;
     renderItems();
@@ -322,6 +322,7 @@ async function submitItem(item, name) {
     const payload = { data: [{ "item": item, "name": name }] };
     await fetch(SCRIPT_URL, {
       method: 'POST',
+      credentials: 'omit',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(payload)
     });
