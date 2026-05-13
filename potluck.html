@@ -220,19 +220,21 @@
 
   <script>
     // ── REPLACE THIS WITH YOUR APPS SCRIPT URL ──
-    const SCRIPT_URL = 'https://script.google.com/macros/s/AKfycbxuScJcAz26QCa5339DfJQEHgunH2GqrQRhkKLr2gkfuR2tzJMianrYc8ie3gx44w0FzA/exec';
+  const SUPABASE_URL = 'https://btsjwkbvqqdnkvguqzcm.supabase.co';
+  const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ0c2p3a2J2cXFkbmt2Z3VxemNtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg2MjIwMzksImV4cCI6MjA5NDE5ODAzOX0.b9FqXDoQFiqEp2te8BXaC4WiKNdQ4JJzNpY625w3R5Q';
+  const TABLE = 'signups';
 
-    const FIXED_ITEMS = ['Soft Drinks', 'Sweet Tea', 'Unsweet Tea', 'Chips', 'Salad', 'Rolls', 'Dessert', 'Additional Protein (ex. meatballs)', 'Side (ex. Corn)'];
-    const EMOJIS = { 'Soft Drinks': '🥤', 'Sweet Tea': '🧋', 'Unsweet Tea': '🧋', 'Chips': '🥔', 'Salad': '🥗', 'Rolls': '🍞', 'Dessert': '🍰', 'Additional Protein (ex. meatballs)': '🥩', 'Side (ex. Corn)': '🌽' };
-
-    let allItems = [];
-    let claimingItem = null;
+let allItems = [];
+let claimingItem = null;
 
 async function loadItems() {
   try {
-    const proxy = 'https://corsproxy.io/?';
-    const res = await fetch(proxy + encodeURIComponent(SCRIPT_URL), {
-      credentials: 'omit'
+    const res = await fetch(`${SUPABASE_URL}/rest/v1/${TABLE}?select=*&order=id.asc`, {
+      credentials: 'omit',
+      headers: {
+        'apikey': SUPABASE_KEY,
+        'Authorization': `Bearer ${SUPABASE_KEY}`
+      }
     });
     const data = await res.json();
     allItems = data;
@@ -241,6 +243,7 @@ async function loadItems() {
     document.getElementById('item-list').innerHTML = '<div class="status-bar">Unable to load list — please refresh.</div>';
   }
 }
+
 
     function renderItems() {
       const list = document.getElementById('item-list');
@@ -322,12 +325,16 @@ async function loadItems() {
 
 async function submitItem(item, name) {
   try {
-    const payload = { data: [{ "item": item, "name": name }] };
-    await fetch(SCRIPT_URL, {
+    await fetch(`${SUPABASE_URL}/rest/v1/${TABLE}`, {
       method: 'POST',
       credentials: 'omit',
-      headers: { 'Content-Type': 'application/json' },
-      body: JSON.stringify(payload)
+      headers: {
+        'apikey': SUPABASE_KEY,
+        'Authorization': `Bearer ${SUPABASE_KEY}`,
+        'Content-Type': 'application/json',
+        'Prefer': 'return=minimal'
+      },
+      body: JSON.stringify({ item: item, name: name })
     });
     await loadItems();
   } catch(e) {
