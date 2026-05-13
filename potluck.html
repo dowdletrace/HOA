@@ -230,7 +230,10 @@
 
 async function loadItems() {
   try {
-    const res = await fetch(SCRIPT_URL, { credentials: 'omit' });
+    const proxy = 'https://corsproxy.io/?';
+    const res = await fetch(proxy + encodeURIComponent(SCRIPT_URL), {
+      credentials: 'omit'
+    });
     const data = await res.json();
     allItems = data;
     renderItems();
