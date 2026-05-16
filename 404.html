@@ -1,0 +1,109 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Page Not Found — Dowdle Trace</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+  <style>
+    .error-wrap {
+      max-width: 480px;
+      margin: 0 auto;
+      text-align: center;
+      padding: 80px 24px;
+    }
+    .error-code {
+      font-family: var(--font-display);
+      font-size: 96px;
+      font-weight: 400;
+      color: var(--green-light);
+      line-height: 1;
+      margin-bottom: 8px;
+    }
+    .error-title {
+      font-family: var(--font-display);
+      font-size: 26px;
+      font-weight: 500;
+      color: var(--gray-900);
+      margin-bottom: 12px;
+    }
+    .error-sub {
+      font-size: 15px;
+      color: var(--gray-500);
+      line-height: 1.65;
+      margin-bottom: 36px;
+    }
+    .error-links {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+      align-items: center;
+    }
+    .error-home {
+      display: inline-block;
+      background: var(--green-mid);
+      color: var(--white);
+      font-size: 14px;
+      font-weight: 500;
+      padding: 11px 28px;
+      border-radius: 8px;
+      text-decoration: none;
+      transition: opacity 0.2s;
+    }
+    .error-home:hover { opacity: 0.88; }
+    .error-links-row {
+      display: flex;
+      gap: 20px;
+      flex-wrap: wrap;
+      justify-content: center;
+    }
+    .error-link {
+      font-size: 13px;
+      color: var(--green-mid);
+      text-decoration: none;
+    }
+    .error-link:hover { text-decoration: underline; }
+  </style>
+</head>
+<body>
+
+  <nav>
+    <a href="index.html" class="nav-logo">Dowdle Trace</a>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="announcements.html">Announcements</a></li>
+      <li><a href="events.html">Events</a></li>
+      <li><a href="community.html">Our community</a></li>
+      <li><a href="documents.html">HOA documents</a></li>
+    </ul>
+    <a href="mailto:dowdletrace@gmail.com" class="nav-cta">Request access</a>
+  </nav>
+
+  <div style="min-height: calc(100vh - 56px - 73px); display: flex; align-items: center;">
+    <div class="error-wrap">
+      <div class="error-code">404</div>
+      <div class="error-title">Page not found</div>
+      <p class="error-sub">Looks like this path doesn't lead anywhere in Dowdle Trace. The page may have moved or the link might be incorrect.</p>
+      <div class="error-links">
+        <a href="index.html" class="error-home">Go back home</a>
+        <div class="error-links-row">
+          <a href="announcements.html" class="error-link">Announcements</a>
+          <a href="events.html" class="error-link">Events</a>
+          <a href="community.html" class="error-link">Our community</a>
+          <a href="documents.html" class="error-link">HOA documents</a>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    <p>Dowdle Trace Community &middot; Franklin, NC 28734</p>
+    <a href="mailto:dowdletrace@gmail.com">dowdletrace@gmail.com</a>
+  </footer>
+
+</body>
+</html>
