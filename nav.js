@@ -22,3 +22,12 @@ document.addEventListener("DOMContentLoaded", () => {
     if (e.target === modal) modal.style.display = "none";
   };
 });
+// Auto-highlight active nav link based on current page
+const currentPage = window.location.pathname.split('/').pop() || 'index.html';
+document.querySelectorAll('.nav-links a').forEach(link => {
+  link.classList.remove('active');
+  const linkPage = link.getAttribute('href').split('/').pop();
+  if (linkPage === currentPage) {
+    link.classList.add('active');
+  }
+});
