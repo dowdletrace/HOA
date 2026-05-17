@@ -24,17 +24,14 @@ document.addEventListener("DOMContentLoaded", () => {
 });
 // Auto-highlight active nav link
 const path = window.location.pathname;
-const currentPage = path.split('/').pop() || 'index.html';
 
 document.querySelectorAll('.nav-links a').forEach(link => {
   link.classList.remove('active');
   const href = link.getAttribute('href');
-  if (
-    href === currentPage ||
-    (currentPage === '' && href === 'index.html') ||
-    ((currentPage === 'index.html' || currentPage === '') && href === 'index.html') ||
-    path.endsWith(href)
-  ) {
+  
+  if (href === 'index.html' && (path === '/' || path.endsWith('/') || path.endsWith('/index.html'))) {
+    link.classList.add('active');
+  } else if (href !== 'index.html' && path.endsWith(href)) {
     link.classList.add('active');
   }
 });
