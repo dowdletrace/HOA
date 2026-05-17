@@ -32,6 +32,7 @@ document.querySelectorAll('.nav-links a').forEach(link => {
   if (
     href === currentPage ||
     (currentPage === '' && href === 'index.html') ||
+    ((currentPage === 'index.html' || currentPage === '') && href === 'index.html') ||
     path.endsWith(href)
   ) {
     link.classList.add('active');
