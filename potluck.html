@@ -196,6 +196,12 @@
       </div>
 
     </div>
+    <div style="text-align:center;margin-top:8px;">
+  <button onclick="showAdminPanel()" 
+    style="background:none;border:none;font-size:12px;color:var(--gray-500);cursor:pointer;font-family:var(--font-body);text-decoration:underline;">
+    Manage list
+  </button>
+</div>
   </section>
 
   <!-- CLAIM MODAL -->
@@ -342,6 +348,37 @@ async function submitItem(item, name) {
       body: JSON.stringify({ item: item, name: name })
     });
     await loadItems();
+  } catch(e) {
+    alert('Something went wrong — please try again.');
+  }
+}
+
+const ADMIN_PASSWORD = atob('RG93ZGxlMjAyNiE=');
+
+function showAdminPanel() {
+  const password = prompt('Enter admin password:');
+  if (password === ADMIN_PASSWORD) {
+    if (confirm('Clear the entire sign-up list? This cannot be undone.')) {
+      clearList();
+    }
+  } else if (password !== null) {
+    alert('Incorrect password.');
+  }
+}
+
+async function clearList() {
+  try {
+    await fetch(`${SUPABASE_URL}/rest/v1/${TABLE}?item=neq.null`, {
+      method: 'DELETE',
+      credentials: 'omit',
+      headers: {
+        'apikey': SUPABASE_KEY,
+        'Authorization': `Bearer ${SUPABASE_KEY}`,
+        'Content-Type': 'application/json'
+      }
+    });
+    await loadItems();
+    alert('List cleared successfully!');
   } catch(e) {
     alert('Something went wrong — please try again.');
   }
