@@ -1,0 +1,107 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="100%" viewBox="0 0 680 640" role="img">
+<title>Dowdle Trace neighborhood map</title>
+<desc>Crayon-style illustrated map of Dowdle Trace community showing all streets and landmarks</desc>
+
+<defs>
+  <filter id="rough" x="-5%" y="-5%" width="110%" height="110%">
+    <feTurbulence type="fractalNoise" baseFrequency="0.04" numOctaves="4" result="noise"/>
+    <feDisplacementMap in="SourceGraphic" in2="noise" scale="2.5" xChannelSelector="R" yChannelSelector="G"/>
+  </filter>
+</defs>
+
+<rect width="680" height="640" fill="#fdf6e3" rx="16"/>
+<line x1="0" y1="80" x2="680" y2="80" stroke="#e8dcc8" stroke-width="0.5" opacity="0.5"/>
+<line x1="0" y1="160" x2="680" y2="160" stroke="#e8dcc8" stroke-width="0.5" opacity="0.5"/>
+<line x1="0" y1="240" x2="680" y2="240" stroke="#e8dcc8" stroke-width="0.5" opacity="0.5"/>
+<line x1="0" y1="320" x2="680" y2="320" stroke="#e8dcc8" stroke-width="0.5" opacity="0.5"/>
+<line x1="0" y1="400" x2="680" y2="400" stroke="#e8dcc8" stroke-width="0.5" opacity="0.5"/>
+<line x1="0" y1="480" x2="680" y2="480" stroke="#e8dcc8" stroke-width="0.5" opacity="0.5"/>
+<line x1="0" y1="560" x2="680" y2="560" stroke="#e8dcc8" stroke-width="0.5" opacity="0.5"/>
+
+<ellipse cx="100" cy="150" rx="85" ry="55" fill="#a8d878" opacity="0.35" filter="url(#rough)"/>
+<ellipse cx="580" cy="130" rx="70" ry="45" fill="#90c860" opacity="0.3" filter="url(#rough)"/>
+<ellipse cx="120" cy="510" rx="90" ry="45" fill="#a8d878" opacity="0.3" filter="url(#rough)"/>
+<ellipse cx="560" cy="500" rx="75" ry="45" fill="#90c860" opacity="0.28" filter="url(#rough)"/>
+
+<rect x="60" y="128" width="5" height="18" rx="1" fill="#6b4226"/>
+<circle cx="63" cy="120" r="14" fill="#3B8C20" filter="url(#rough)" opacity="0.8"/>
+<rect x="92" y="112" width="5" height="16" rx="1" fill="#6b4226"/>
+<circle cx="95" cy="105" r="11" fill="#4aaa28" filter="url(#rough)" opacity="0.75"/>
+<rect x="598" y="102" width="5" height="18" rx="1" fill="#6b4226"/>
+<circle cx="601" cy="95" r="13" fill="#4aaa28" filter="url(#rough)" opacity="0.75"/>
+<rect x="72" y="500" width="5" height="18" rx="1" fill="#6b4226"/>
+<circle cx="75" cy="492" r="14" fill="#3B8C20" filter="url(#rough)" opacity="0.75"/>
+<rect x="570" y="492" width="5" height="16" rx="1" fill="#6b4226"/>
+<circle cx="573" cy="485" r="12" fill="#3B8C20" filter="url(#rough)" opacity="0.75"/>
+
+<!-- Main Trce -->
+<path d="M535,40 C505,76 472,112 440,148 C415,176 388,198 358,215" stroke="#f5c842" stroke-width="20" fill="none" stroke-linecap="round" filter="url(#rough)"/>
+<path d="M535,40 C505,76 472,112 440,148 C415,176 388,198 358,215" stroke="#e8b820" stroke-width="9" fill="none" stroke-linecap="round" stroke-dasharray="20,10" opacity="0.5"/>
+<circle cx="358" cy="215" r="10" fill="#fdf6e3" stroke="#ccc" stroke-width="2"/>
+
+<!-- Center Trce -->
+<path d="M358,215 C335,232 308,252 282,275 C258,298 240,328 238,362 C236,395 245,428 252,465 C255,488 250,510 245,532" stroke="#f08060" stroke-width="18" fill="none" stroke-linecap="round" filter="url(#rough)"/>
+<path d="M358,215 C335,232 308,252 282,275 C258,298 240,328 238,362 C236,395 245,428 252,465 C255,488 250,510 245,532" stroke="#d86040" stroke-width="8" fill="none" stroke-linecap="round" stroke-dasharray="20,10" opacity="0.5"/>
+<circle cx="245" cy="532" r="8" fill="#f08060" filter="url(#rough)"/>
+
+<!-- East Trace -->
+<path d="M358,215 C368,238 375,265 378,295 C382,328 382,362 378,395 C374,428 368,460 362,490 C358,510 354,525 350,542" stroke="#60b8e8" stroke-width="18" fill="none" stroke-linecap="round" filter="url(#rough)"/>
+<path d="M358,215 C368,238 375,265 378,295 C382,328 382,362 378,395 C374,428 368,460 362,490 C358,510 354,525 350,542" stroke="#3898d0" stroke-width="8" fill="none" stroke-linecap="round" stroke-dasharray="20,10" opacity="0.5"/>
+<circle cx="350" cy="542" r="8" fill="#60b8e8" filter="url(#rough)"/>
+
+<!-- Circle Trce -->
+<path d="M378,320 C410,312 445,314 475,325 C498,333 512,348 515,365" stroke="#b088e0" stroke-width="18" fill="none" stroke-linecap="round" filter="url(#rough)"/>
+<path d="M378,320 C410,312 445,314 475,325 C498,333 512,348 515,365" stroke="#9068c8" stroke-width="8" fill="none" stroke-linecap="round" stroke-dasharray="20,10" opacity="0.5"/>
+<circle cx="515" cy="365" r="8" fill="#b088e0" filter="url(#rough)"/>
+
+<!-- Southern Trce -->
+<path d="M368,470 C395,460 428,458 460,465 C488,472 510,485 525,502" stroke="#68c870" stroke-width="18" fill="none" stroke-linecap="round" filter="url(#rough)"/>
+<path d="M368,470 C395,460 428,458 460,465 C488,472 510,485 525,502" stroke="#48a850" stroke-width="8" fill="none" stroke-linecap="round" stroke-dasharray="20,10" opacity="0.5"/>
+<circle cx="525" cy="502" r="8" fill="#68c870" filter="url(#rough)"/>
+
+<!-- Labels -->
+<text x="492" y="105" text-anchor="middle" font-family="Georgia, serif" font-size="15" font-weight="500" fill="#b88a08" transform="rotate(-34,492,105)">Main Trce</text>
+<text x="232" y="385" text-anchor="middle" font-family="Georgia, serif" font-size="15" font-weight="500" fill="#c04820" transform="rotate(-85,232,385)">Center Trce</text>
+<text x="348" y="385" text-anchor="end" font-family="Georgia, serif" font-size="15" font-weight="500" fill="#1878b8" transform="rotate(-85,348,385)">East Trace</text>
+<text x="455" y="322" text-anchor="middle" font-family="Georgia, serif" font-size="14" font-weight="500" fill="#6848b0" transform="rotate(-12,455,322)">Circle Trce</text>
+<text x="452" y="452" text-anchor="middle" font-family="Georgia, serif" font-size="14" font-weight="500" fill="#287830" transform="rotate(-10,452,452)">Southern Trce</text>
+
+<!-- Barn -->
+<rect x="418" y="372" width="30" height="22" rx="3" fill="#c0522a" filter="url(#rough)"/>
+<polygon points="412,372 454,372 441,357 422,357" fill="#a03818" filter="url(#rough)"/>
+<rect x="429" y="380" width="9" height="14" rx="2" fill="#7a2808"/>
+<text x="433" y="412" text-anchor="middle" font-family="Georgia, serif" font-size="12" fill="#7a2808" font-weight="500">The Barn</text>
+
+<!-- Entrance -->
+<rect x="516" y="26" width="14" height="32" rx="3" fill="#3B6D11" filter="url(#rough)"/>
+<rect x="536" y="26" width="14" height="32" rx="3" fill="#3B6D11" filter="url(#rough)"/>
+<path d="M510,26 L556,26" stroke="#3B6D11" stroke-width="5" stroke-linecap="round"/>
+<text x="533" y="74" text-anchor="middle" font-family="Georgia, serif" font-size="12" fill="#2d4a1e" font-weight="500">Entrance</text>
+
+<!-- Title -->
+<rect x="28" y="28" width="235" height="60" rx="10" fill="#2d4a1e" opacity="0.92" filter="url(#rough)"/>
+<text x="145" y="53" text-anchor="middle" font-family="Georgia, serif" font-size="18" font-weight="500" fill="#fdf6e3">Dowdle Trace</text>
+<text x="145" y="74" text-anchor="middle" font-family="Georgia, serif" font-size="12" fill="#c8dba8">Community Map · Franklin, NC</text>
+
+<!-- Legend -->
+<rect x="28" y="555" width="340" height="68" rx="10" fill="#2d4a1e" opacity="0.88" filter="url(#rough)"/>
+<text x="174" y="574" text-anchor="middle" font-family="Georgia, serif" font-size="12" font-weight="500" fill="#fdf6e3">Streets</text>
+<rect x="38" y="582" width="28" height="9" rx="4" fill="#f5c842"/>
+<text x="72" y="591" font-family="Georgia, serif" font-size="11" fill="#fdf6e3">Main Trce</text>
+<rect x="38" y="598" width="28" height="9" rx="4" fill="#f08060"/>
+<text x="72" y="607" font-family="Georgia, serif" font-size="11" fill="#fdf6e3">Center Trce</text>
+<rect x="132" y="582" width="28" height="9" rx="4" fill="#60b8e8"/>
+<text x="166" y="591" font-family="Georgia, serif" font-size="11" fill="#fdf6e3">East Trace</text>
+<rect x="132" y="598" width="28" height="9" rx="4" fill="#b088e0"/>
+<text x="166" y="607" font-family="Georgia, serif" font-size="11" fill="#fdf6e3">Circle Trce</text>
+<rect x="232" y="582" width="28" height="9" rx="4" fill="#68c870"/>
+<text x="266" y="591" font-family="Georgia, serif" font-size="11" fill="#fdf6e3">Southern Trce</text>
+<rect x="232" y="598" width="14" height="10" rx="1" fill="#c0522a"/>
+<text x="252" y="607" font-family="Georgia, serif" font-size="11" fill="#fdf6e3">  The Barn</text>
+
+<!-- North arrow -->
+<line x1="642" y1="575" x2="642" y2="550" stroke="#2d4a1e" stroke-width="2.5" stroke-linecap="round"/>
+<polygon points="636,556 642,542 648,556" fill="#2d4a1e"/>
+<text x="642" y="593" text-anchor="middle" font-family="Georgia, serif" font-size="13" fill="#2d4a1e" font-weight="500">N</text>
+
+</svg>
