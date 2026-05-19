@@ -1,0 +1,265 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>RSVP — Dowdle Trace</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="nav.css" />
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+  <style>
+    .rsvp-wrap { max-width: 520px; margin: 0 auto; }
+
+    .rsvp-card {
+      background: var(--gray-50);
+      border-radius: 14px;
+      padding: 28px;
+      margin-bottom: 16px;
+    }
+
+    .form-section-title {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--green-mid);
+      margin-bottom: 16px;
+      padding-bottom: 10px;
+      border-bottom: 1px solid var(--gray-200);
+    }
+
+    .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 14px; }
+    .form-row.full { grid-template-columns: 1fr; }
+    .form-field { display: flex; flex-direction: column; gap: 5px; }
+    .form-label { font-size: 12px; font-weight: 500; color: var(--gray-500); }
+    .form-required { color: #E24B4A; margin-left: 2px; }
+
+    .form-input {
+      height: 38px;
+      border: 1px solid var(--gray-200);
+      border-radius: 8px;
+      padding: 0 12px;
+      font-size: 14px;
+      font-family: var(--font-body);
+      background: var(--white);
+      color: var(--gray-900);
+      transition: border-color 0.2s;
+    }
+    .form-input:focus { outline: none; border-color: var(--green-mid); }
+
+    .form-select {
+      height: 38px;
+      border: 1px solid var(--gray-200);
+      border-radius: 8px;
+      padding: 0 12px;
+      font-size: 14px;
+      font-family: var(--font-body);
+      background: var(--white);
+      color: var(--gray-900);
+      width: 100%;
+      transition: border-color 0.2s;
+    }
+    .form-select:focus { outline: none; border-color: var(--green-mid); }
+
+    .form-submit {
+      background: var(--green-mid);
+      color: white;
+      border: none;
+      border-radius: 8px;
+      padding: 12px 24px;
+      font-size: 15px;
+      font-weight: 500;
+      cursor: pointer;
+      font-family: var(--font-body);
+      width: 100%;
+      transition: opacity 0.2s;
+      margin-top: 4px;
+    }
+    .form-submit:hover { opacity: 0.88; }
+    .form-submit:disabled { opacity: 0.6; cursor: not-allowed; }
+
+    .success-message {
+      display: none;
+      background: #EAF3DE;
+      border-radius: 14px;
+      padding: 32px 28px;
+      text-align: center;
+    }
+    .success-message h3 {
+      font-family: var(--font-display);
+      font-size: 22px;
+      font-weight: 500;
+      color: var(--green-deep);
+      margin-bottom: 8px;
+    }
+    .success-message p { font-size: 14px; color: var(--green-mid); line-height: 1.65; margin-bottom: 20px; }
+    .success-back {
+      display: inline-block;
+      font-size: 13px;
+      color: var(--green-mid);
+      font-weight: 500;
+      text-decoration: none;
+      border: 1px solid var(--green-mid);
+      padding: 8px 20px;
+      border-radius: 8px;
+      transition: background 0.2s, color 0.2s;
+    }
+    .success-back:hover { background: var(--green-mid); color: white; }
+
+    .notice {
+      background: var(--green-light);
+      border-radius: 10px;
+      padding: 14px 18px;
+      font-size: 13px;
+      color: var(--green-deep);
+      line-height: 1.6;
+      margin-bottom: 24px;
+    }
+
+    @media (max-width: 600px) {
+      .form-row { grid-template-columns: 1fr; }
+      .rsvp-card { padding: 20px; }
+    }
+  </style>
+</head>
+<body>
+
+  <nav class="navbar">
+    <div class="nav-left">
+      <button class="nav-toggle" aria-label="Toggle navigation">☰</button>
+      <a href="index.html" class="nav-logo">Dowdle Trace</a>
+    </div>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="announcements.html">Announcements</a></li>
+      <li><a href="events.html" class="active">Events</a></li>
+      <li><a href="community.html">Our community</a></li>
+      <li><a href="documents.html">HOA documents</a></li>
+    </ul>
+  </nav>
+
+  <div class="page-header" style="text-align:center;">
+    <div class="page-header-eyebrow">Dowdle Trace community</div>
+    <h1>RSVP to an event</h1>
+    <p style="margin:0 auto;">Let us know you're coming so we can plan ahead.</p>
+  </div>
+
+  <section>
+    <div class="rsvp-wrap">
+
+      <div class="notice">
+        RSVPs help the board plan food, seating, and activities. You'll receive a confirmation email once your RSVP is received.
+      </div>
+
+      <form id="rsvp-form">
+
+        <div class="rsvp-card">
+          <div class="form-section-title">Your information</div>
+          <div class="form-row">
+            <div class="form-field">
+              <label class="form-label">Full name <span class="form-required">*</span></label>
+              <input class="form-input" type="text" id="rsvp-name" placeholder="Jane Smith" required />
+            </div>
+            <div class="form-field">
+              <label class="form-label">Email address <span class="form-required">*</span></label>
+              <input class="form-input" type="email" id="rsvp-email" placeholder="jane@email.com" required />
+            </div>
+          </div>
+        </div>
+
+        <div class="rsvp-card">
+          <div class="form-section-title">Event details</div>
+          <div class="form-row full" style="margin-bottom:14px;">
+            <div class="form-field">
+              <label class="form-label">Which event? <span class="form-required">*</span></label>
+              <select class="form-select" id="rsvp-event" required>
+                <option value="">Select an event...</option>
+                <option>Annual POA Meeting — July 26</option>
+                <option>Annual Meeting Potluck — July 27</option>
+                <option>Summer Cookout — June 7</option>
+              </select>
+            </div>
+          </div>
+          <div class="form-row full">
+            <div class="form-field">
+              <label class="form-label">Number of guests attending <span class="form-required">*</span></label>
+              <select class="form-select" id="rsvp-guests" required>
+                <option value="">Select...</option>
+                <option>Dowdle Trace BBQ</option>
+                <option>Dowdle Trace HOA Annual Meeting</option>
+              </select>
+            </div>
+          </div>
+        </div>
+
+        <button type="submit" class="form-submit" id="rsvp-submit">Submit RSVP</button>
+
+      </form>
+
+      <div class="success-message" id="success-message">
+        <h3>You're on the list! 🎉</h3>
+        <p>Thanks for letting us know — we'll see you there. Keep an eye on the announcements page for any event updates.</p>
+        <a href="events.html" class="success-back">← Back to events</a>
+      </div>
+
+    </div>
+  </section>
+
+  <footer>
+    <p>Dowdle Trace Community &middot; Franklin, NC 28734</p>
+    <a href="mailto:dowdletrace@gmail.com">dowdletrace@gmail.com</a>
+  </footer>
+
+  <script src="nav.js"></script>
+  <script>
+    // ── REPLACE WITH YOUR RSVP SUPABASE CREDENTIALS ──
+    const SUPABASE_URL = 'https://lpsmqgjpvodkasywiook.supabase.co';
+    const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6Imxwc21xZ2pwdm9ka2FzeXdpb29rIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzkxODE0NTMsImV4cCI6MjA5NDc1NzQ1M30.vx6RswvwLI5l1dTZnC4JhH2jdqtZFyLFl7M8UWiVGog';
+    const TABLE = 'rsvps';
+
+    document.getElementById('rsvp-form').addEventListener('submit', async e => {
+      e.preventDefault();
+
+      const name = document.getElementById('rsvp-name').value.trim();
+      const email = document.getElementById('rsvp-email').value.trim();
+      const event = document.getElementById('rsvp-event').value;
+      const guests = document.getElementById('rsvp-guests').value;
+
+      if (!name || !email || !event || !guests) return;
+
+      const btn = document.getElementById('rsvp-submit');
+      btn.textContent = 'Submitting...';
+      btn.disabled = true;
+
+      try {
+        const res = await fetch(`${SUPABASE_URL}/rest/v1/${TABLE}`, {
+          method: 'POST',
+          credentials: 'omit',
+          headers: {
+            'apikey': SUPABASE_KEY,
+            'Authorization': `Bearer ${SUPABASE_KEY}`,
+            'Content-Type': 'application/json',
+            'Prefer': 'return=minimal'
+          },
+          body: JSON.stringify({ name, email, event, guests })
+        });
+
+        if (res.ok) {
+          document.getElementById('rsvp-form').style.display = 'none';
+          document.getElementById('success-message').style.display = 'block';
+        } else {
+          btn.textContent = 'Something went wrong — please try again';
+          btn.disabled = false;
+        }
+      } catch(e) {
+        btn.textContent = 'Something went wrong — please try again';
+        btn.disabled = false;
+      }
+    });
+  </script>
+
+</body>
+</html>
