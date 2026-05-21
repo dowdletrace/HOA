@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Designation of Voting Member – Dowdle Trace POA</title>
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+  <link rel="stylesheet" href="styles.css" />
+  <link rel="stylesheet" href="nav.css" />
+  <style>
+    body {
+      font-family: 'Georgia', serif;
+      background: #f4f4f4;
+      color: #111;
+      margin: 0;
+    }
+
+    /* ── PRINT BUTTON AREA ── */
+    .print-bar {
+      background: #fff;
+      border-bottom: 1px solid #ddd;
+      padding: 0.75rem 1.5rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 1rem;
+    }
+    .print-bar p {
+      font-family: sans-serif;
+      font-size: 0.85rem;
+      color: #555;
+      margin: 0;
+    }
+    .btn-print {
+      font-family: sans-serif;
+      font-size: 0.9rem;
+      font-weight: 600;
+      background: #444;
+      color: #fff;
+      border: none;
+      border-radius: 6px;
+      padding: 0.55rem 1.25rem;
+      cursor: pointer;
+      white-space: nowrap;
+      transition: background 0.2s;
+    }
+    .btn-print:hover { background: #222; }
+
+    /* ── FORM WRAPPER ── */
+    .form-page {
+      max-width: 680px;
+      margin: 2rem auto;
+      background: #fff;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      padding: 2.5rem 3rem;
+      box-shadow: 0 2px 12px rgba(0,0,0,0.08);
+    }
+
+    .form-title {
+      font-size: 1.1rem;
+      font-weight: bold;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      text-align: center;
+      margin-bottom: 0.25rem;
+    }
+    .form-subtitle {
+      font-size: 0.85rem;
+      text-align: center;
+      color: #555;
+      font-family: sans-serif;
+      margin-bottom: 2rem;
+    }
+
+    /* ── SECTIONS ── */
+    .form-section {
+      margin-bottom: 1.75rem;
+    }
+    .section-header {
+      background: #ebebeb;
+      font-family: sans-serif;
+      font-size: 0.78rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: #444;
+      padding: 0.4rem 0.75rem;
+      border-radius: 3px;
+      margin-bottom: 1.1rem;
+    }
+
+    /* ── FIELD ROWS ── */
+    .field-row {
+      display: flex;
+      gap: 1.5rem;
+      margin-bottom: 1rem;
+      align-items: flex-end;
+    }
+    .field-group {
+      display: flex;
+      flex-direction: column;
+      gap: 0.3rem;
+      flex: 1;
+    }
+    .field-group.narrow { flex: 0 0 160px; }
+
+    label {
+      font-family: sans-serif;
+      font-size: 0.78rem;
+      font-weight: 600;
+      text-transform: uppercase;
+      letter-spacing: 0.04em;
+      color: #444;
+    }
+    input[type="text"],
+    input[type="date"] {
+      font-family: 'Georgia', serif;
+      font-size: 0.95rem;
+      padding: 0.45rem 0.6rem;
+      border: 1px solid #bbb;
+      border-radius: 4px;
+      background: #fafafa;
+      color: #111;
+      width: 100%;
+      box-sizing: border-box;
+      transition: border-color 0.2s, background 0.2s;
+    }
+    input[type="text"]:focus,
+    input[type="date"]:focus {
+      outline: none;
+      border-color: #777;
+      background: #fff;
+    }
+
+    /* ── LEGAL TEXT ── */
+    .legal {
+      border-top: 1px solid #ddd;
+      padding-top: 1.25rem;
+      margin-top: 1.75rem;
+    }
+    .legal p {
+      font-size: 0.82rem;
+      line-height: 1.65;
+      color: #333;
+      margin-bottom: 0.75rem;
+    }
+    .legal p:last-child { margin-bottom: 0; }
+
+    /* ── PRINT STYLES ── */
+    @media print {
+      body { background: #fff; }
+      nav, .print-bar { display: none !important; }
+      .form-page {
+        box-shadow: none;
+        border: none;
+        margin: 0;
+        padding: 1.5rem 2rem;
+        max-width: 100%;
+      }
+      input[type="text"],
+      input[type="date"] {
+        border: none;
+        border-bottom: 1px solid #444;
+        border-radius: 0;
+        background: transparent;
+        padding: 0.2rem 0;
+      }
+      .section-header {
+        background: #e0e0e0;
+        -webkit-print-color-adjust: exact;
+        print-color-adjust: exact;
+      }
+    }
+
+    @media (max-width: 600px) {
+      .form-page { padding: 1.5rem 1.25rem; }
+      .field-row { flex-direction: column; gap: 0.75rem; }
+      .field-group.narrow { flex: 1; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAV: replace with your standard nav include -->
+<nav><!-- your nav here --></nav>
+
+<div class="print-bar no-print">
+  <p>Fill out the form below, then click Print to save or print your completed form.</p>
+  <button class="btn-print" onclick="window.print()">🖨 Print / Save as PDF</button>
+</div>
+
+<div class="form-page">
+
+  <div class="form-title">Designation of Voting Member</div>
+  <div class="form-subtitle">Dowdle Trace Property Owners Association</div>
+
+  <!-- PRIMARY LOT -->
+  <div class="form-section">
+    <div class="section-header">Primary Lot</div>
+
+    <div class="field-row">
+      <div class="field-group narrow">
+        <label for="lot1">Lot No.</label>
+        <input type="text" id="lot1" placeholder=" " />
+      </div>
+      <div class="field-group narrow">
+        <label for="date1">Date</label>
+        <input type="date" id="date1" />
+      </div>
+    </div>
+
+    <div class="field-row">
+      <div class="field-group">
+        <label for="address1">Property Address</label>
+        <input type="text" id="address1" placeholder=" " />
+      </div>
+    </div>
+
+    <div class="field-row">
+      <div class="field-group">
+        <label for="member1">Voting Member</label>
+        <input type="text" id="member1" placeholder=" " />
+      </div>
+    </div>
+  </div>
+
+  <!-- SECOND LOT -->
+  <div class="form-section">
+    <div class="section-header">Second Lot (if applicable)</div>
+
+    <div class="field-row">
+      <div class="field-group narrow">
+        <label for="lot2">Lot No.</label>
+        <input type="text" id="lot2" placeholder=" " />
+      </div>
+    </div>
+
+    <div class="field-row">
+      <div class="field-group">
+        <label for="address2">Property Address</label>
+        <input type="text" id="address2" placeholder=" " />
+      </div>
+    </div>
+
+    <div class="field-row">
+      <div class="field-group">
+        <label for="member2">Voting Member</label>
+        <input type="text" id="member2" placeholder=" " />
+      </div>
+    </div>
+  </div>
+
+  <!-- LEGAL -->
+  <div class="legal">
+    <p>Article VIII Meetings of the By-Laws allows the Secretary/Treasurer to assume the above designations to be valid and correct.</p>
+    <p>It also allows that in the event of failure to designate the Voting Member, then the Secretary/Treasurer is entitled to designate a Voting Member for such unit or lot.</p>
+  </div>
+
+</div>
+
+</body>
+</html>
