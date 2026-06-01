@@ -135,6 +135,41 @@
   justify-content: center;
 }
 
+    /* ── Jump Nav ── */
+    .section-jumper {
+      background-color: #d6e8c4;
+      display: flex;
+      justify-content: center;
+      flex-wrap: wrap;
+      gap: 0.25rem 0.25rem;
+      padding: 0.6rem 1.5rem;
+      position: sticky;
+      top: 0;
+      z-index: 90;
+      border-bottom: 1px solid #bdd4a8;
+    }
+    .section-jumper a {
+      color: #2d4a1e;
+      font-family: var(--font-body);
+      font-size: 0.75rem;
+      font-weight: 600;
+      letter-spacing: 0.06em;
+      text-transform: uppercase;
+      text-decoration: none;
+      padding: 0.25rem 0.75rem;
+      white-space: nowrap;
+      border-radius: 4px;
+      transition: background-color 0.2s, color 0.2s;
+    }
+    .section-jumper a:hover {
+      background-color: #bdd4a8;
+      color: #1a2e10;
+    }
+    @media (max-width: 600px) {
+      .section-jumper { gap: 0.2rem; padding: 0.5rem 1rem; }
+      .section-jumper a { font-size: 0.68rem; padding: 0.2rem 0.5rem; }
+    }
+
 /* ── FAQ ── */
     .faq-list { display: flex; flex-direction: column; gap: 8px; }
     .faq-item { background: var(--gray-50); border-radius: 12px; overflow: hidden; }
@@ -179,7 +214,17 @@
     <p>A little about who we are, where we live, and what makes Dowdle Trace special.</p>
   </div>
 
-  <section>
+  <!-- Jump Nav -->
+  <nav class="section-jumper">
+    <a href="#about">About</a>
+    <a href="#map">Neighborhood Map</a>
+    <a href="#photos">Around the Neighborhood</a>
+    <a href="#memories">Community Memories</a>
+    <a href="#board">Board Members</a>
+    <a href="#faq">FAQs</a>
+  </nav>
+
+  <section id="about">
     <div class="stat-row">
       <div class="stat-card fade-up">
         <span class="stat-num">Franklin</span>
@@ -213,7 +258,7 @@
 
   <hr class="divider" />
 
-<section>
+<section id="map">
   <div class="section-label">Find your way around</div>
   <div class="section-title">Neighborhood map</div>
   <img src="images/neighborhood-map.svg" alt="Dowdle Trace neighborhood map" style="width:100%;max-width:800px;border-radius:14px;display:block;margin:0 auto;" />
@@ -221,7 +266,7 @@
 
   <hr class="divider" />
 
-  <section>
+  <section id="photos">
     <div class="section-label">Photo gallery</div>
     <div class="section-title">Around the neighborhood</div>
     <div class="photo-grid">
@@ -310,9 +355,9 @@
 
 <hr class="divider" />
 
-<section>
+<section id="memories">
   <div class="section-label">Looking back</div>
-  <div class="section-title" id="memories">Community memories</div>
+  <div class="section-title">Community memories</div>
   <div style="font-size:12px;font-weight:500;letter-spacing:0.08em;text-transform:uppercase;color:var(--gray-500);margin:20px 0 10px;">A Porch Evening — May 2026</div>
   <div class="photo-grid">
 
@@ -353,7 +398,7 @@
 
   <hr class="divider" />
 
-  <section>
+  <section id="board">
     <div class="section-label">Who's who</div>
 <div style="display:flex;align-items:center;gap:16px;margin-bottom:16px;">
   <div class="section-title" style="margin-bottom:0;">Board Members</div>
@@ -398,7 +443,7 @@
     </div>
   </section>
 
-  <section>
+  <section id="faq">
     <div class="section-label">Common questions</div>
     <div class="section-title">Frequently asked questions</div>
     <div class="faq-list">
