@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Spending Request Decision — Dowdle Trace</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+  <link rel="stylesheet" href="nav.css" />
+  <link rel="icon" type="image/svg+xml" href="favicon.svg" />
+  <link rel="icon" type="image/png" href="favicon.png" sizes="32x32">
+  <style>
+    .decide-wrap { max-width: 480px; margin: 0 auto; text-align: center; }
+    .decide-card {
+      background: var(--gray-50);
+      border-radius: 14px;
+      padding: 32px 28px;
+    }
+    .decide-card p.detail { font-size: 14px; color: var(--gray-500); line-height: 1.6; margin-bottom: 24px; }
+    .decide-card p.detail strong { color: var(--gray-900); }
+    .decide-btn {
+      border: none;
+      border-radius: 8px;
+      padding: 12px 28px;
+      font-size: 15px;
+      font-weight: 500;
+      cursor: pointer;
+      font-family: var(--font-body);
+      color: white;
+      transition: opacity 0.2s;
+    }
+    .decide-btn:disabled { opacity: 0.6; cursor: not-allowed; }
+    .decide-btn.approve { background: var(--green-mid); }
+    .decide-btn.deny { background: #C0504D; }
+    .result-message h2 {
+      font-family: var(--font-display);
+      font-size: 22px;
+      font-weight: 500;
+      margin-bottom: 8px;
+    }
+    .result-message.success h2 { color: var(--green-deep); }
+    .result-message.error h2 { color: #9A3030; }
+    .result-message p { font-size: 14px; color: var(--gray-500); line-height: 1.6; }
+    .loading { font-size: 14px; color: var(--gray-500); padding: 20px 0; }
+  </style>
+</head>
+<body>
+
+  <nav class="navbar">
+    <div class="nav-left">
+      <button class="nav-toggle" aria-label="Toggle navigation">☰</button>
+      <a href="index.html" class="nav-logo">Dowdle Trace</a>
+    </div>
+    <ul class="nav-links">
+      <li><a href="index.html">Home</a></li>
+      <li><a href="announcements.html">Announcements</a></li>
+      <li><a href="events.html">Events</a></li>
+      <li><a href="community.html">Our community</a></li>
+      <li><a href="documents.html">HOA documents</a></li>
+      <li><a href="spending-request.html">Spending Request</a></li>
+    </ul>
+  </nav>
+
+  <div class="page-header" style="text-align:center;">
+    <div class="page-header-eyebrow">Dowdle Trace community</div>
+    <h1>Spending request decision</h1>
+  </div>
+
+  <section>
+    <div class="decide-wrap">
+      <div class="decide-card" id="content">
+        <div class="loading">Loading request details...</div>
+      </div>
+    </div>
+  </section>
+
+  <footer>
+    <p>Dowdle Trace Community &middot; Franklin, NC 28734</p>
+    <a href="mailto:dowdletrace@gmail.com">dowdletrace@gmail.com</a>
+  </footer>
+
+  <script src="nav.js"></script>
+  <script>
+    const API_URL = 'https://btsjwkbvqqdnkvguqzcm.supabase.co/functions/v1/decide-spending-request';
+
+    const params = new URLSearchParams(window.location.search);
+    const id = params.get('id');
+    const token = params.get('token');
+    const decision = params.get('decision');
+    const content = document.getElementById('content');
+
+    function escapeHtml(str) {
+      const div = document.createElement('div');
+      div.textContent = str;
+      return div.innerHTML;
+    }
+
+    async function loadDetails() {
+      if (!id || !token || !['approved', 'denied'].includes(decision)) {
+        content.innerHTML = `<div class="result-message error"><h2>Invalid link</h2><p>This link is missing information or is malformed.</p></div>`;
+        return;
+      }
+
+      try {
+        const res = await fetch(`${API_URL}?id=${encodeURIComponent(id)}&token=${encodeURIComponent(token)}&decision=${decision}`);
+        const data = await res.json();
+
+        if (!res.ok) {
+          content.innerHTML = `<div class="result-message error"><h2>${data.status ? 'Already decided' : 'Link not valid'}</h2><p>${escapeHtml(data.error || 'Something went wrong.')}</p></div>`;
+          return;
+        }
+
+        const label = decision === 'approved' ? 'Approve' : 'Deny';
+        const btnClass = decision === 'approved' ? 'approve' : 'deny';
+
+        content.innerHTML = `
+          <h2 style="font-family: var(--font-display); font-size: 20px; font-weight: 500; margin-bottom: 16px;">${label} this request?</h2>
+          <p class="detail"><strong>${escapeHtml(data.name)}</strong> - ${escapeHtml(data.description)} ($${data.estimated_amount})</p>
+          <button class="decide-btn ${btnClass}" id="confirm-btn">Yes, ${label.toLowerCase()}</button>
+        `;
+
+        document.getElementById('confirm-btn').addEventListener('click', submitDecision);
+      } catch (e) {
+        content.innerHTML = `<div class="result-message error"><h2>Something went wrong</h2><p>Please try again, or contact the board directly.</p></div>`;
+      }
+    }
+
+    async function submitDecision() {
+      const btn = document.getElementById('confirm-btn');
+      btn.disabled = true;
+      btn.textContent = 'Submitting...';
+
+      try {
+        const res = await fetch(API_URL, {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ id, token, decision })
+        });
+        const data = await res.json();
+
+        if (!res.ok) {
+          content.innerHTML = `<div class="result-message error"><h2>Something went wrong</h2><p>${escapeHtml(data.error || 'Please try again.')}</p></div>`;
+          return;
+        }
+
+        const resultLabel = decision === 'approved' ? 'Approved ✓' : 'Denied';
+        content.innerHTML = `<div class="result-message success"><h2>${resultLabel}</h2><p>${escapeHtml(data.name)}'s request has been ${decision}. They've been notified by email.</p></div>`;
+      } catch (e) {
+        content.innerHTML = `<div class="result-message error"><h2>Something went wrong</h2><p>Please try again, or contact the board directly.</p></div>`;
+      }
+    }
+
+    loadDetails();
+  </script>
+
+</body>
+</html>
