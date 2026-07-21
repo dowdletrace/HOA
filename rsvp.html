@@ -253,7 +253,12 @@
           document.getElementById('rsvp-form').style.display = 'none';
           document.getElementById('success-message').style.display = 'block';
         } else {
-          btn.textContent = 'Something went wrong — please try again';
+          const data = await res.json();
+          if (res.status === 409 || (data.code && data.code === '23505')) {
+            btn.textContent = 'You have already RSVPed for this event';
+          } else {
+            btn.textContent = 'Something went wrong — please try again';
+          }
           btn.disabled = false;
         }
       } catch(e) {
