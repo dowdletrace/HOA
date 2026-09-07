@@ -207,17 +207,9 @@
   <section>
     <div class="viewer-wrap">
 
-      <!-- LOGIN -->
-      <div class="login-card" id="login-card">
-        <h2>Enter password</h2>
-        <p>This page is for board members and event hosts only.</p>
-        <input class="login-input" type="password" id="password-input" placeholder="Password" />
-        <button class="login-btn" onclick="checkPassword()">View RSVPs</button>
-        <div class="login-error" id="login-error">Incorrect password — please try again.</div>
-      </div>
-
+   
       <!-- VIEWER -->
-      <div class="viewer-content" id="viewer-content">
+      <div class="viewer-content" id="viewer-content" style="display:block;">
 
         <div class="filter-row">
           <select class="filter-select" id="event-filter" onchange="filterRsvps()">
@@ -252,19 +244,6 @@
     const VIEWER_PASSWORD = atob('ZG93ZGxlMjAyNiE='); // dowdle2026!
 
     let allRsvps = [];
-
-    function checkPassword() {
-      const input = document.getElementById('password-input').value;
-      if (input === VIEWER_PASSWORD) {
-        document.getElementById('login-card').style.display = 'none';
-        document.getElementById('viewer-content').style.display = 'block';
-        loadRsvps();
-      } else {
-        document.getElementById('login-error').style.display = 'block';
-        document.getElementById('password-input').value = '';
-        document.getElementById('password-input').focus();
-      }
-    }
 
     document.getElementById('password-input').addEventListener('keydown', e => {
       if (e.key === 'Enter') checkPassword();
@@ -344,6 +323,8 @@
       html += '</tbody></table>';
       container.innerHTML = html;
     }
+
+    loadRsvps();
   </script>
 
 </body>
