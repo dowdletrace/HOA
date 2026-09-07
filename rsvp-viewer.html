@@ -13,7 +13,6 @@
   <style>
     .viewer-wrap { max-width: 800px; margin: 0 auto; }
 
-    /* ── LOGIN ── */
     .login-card {
       max-width: 380px;
       margin: 60px auto;
@@ -70,7 +69,6 @@
       display: none;
     }
 
-    /* ── VIEWER ── */
     .viewer-content { display: block; }
 
     .filter-row {
@@ -168,7 +166,6 @@
       font-size: 14px;
     }
 
-    /* ── PRINT ── */
     @media print {
       nav, .filter-row, .print-btn, footer { display: none !important; }
       .page-header { background: #2d4a1e !important; -webkit-print-color-adjust: exact; }
@@ -207,7 +204,6 @@
   <section>
     <div class="viewer-wrap">
 
-   
       <!-- VIEWER -->
       <div class="viewer-content" id="viewer-content" style="display:block;">
 
@@ -291,9 +287,10 @@
       renderTable(filtered);
     }
 
-    function getBringing(name) {
+    function getBringing(name, event) {
       const items = allSignups
-        .filter(s => (s.name || '').trim().toLowerCase() === (name || '').trim().toLowerCase())
+        .filter(s => (s.name || '').trim().toLowerCase() === (name || '').trim().toLowerCase()
+                  && (s.event || '') === (event || ''))
         .map(s => s.item);
       return items.length ? items.join(', ') : '—';
     }
@@ -331,7 +328,7 @@
             <td class="muted">${r.email}</td>
             <td class="muted">${r.event}</td>
             <td>${r.guests}</td>
-            <td class="muted">${getBringing(r.name)}</td>
+            <td class="muted">${getBringing(r.name, r.event)}</td>
           </tr>
         `;
       });

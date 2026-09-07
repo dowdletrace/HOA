@@ -114,7 +114,7 @@
           <div class="form-row full" style="margin-bottom:14px;">
             <div class="form-field">
               <label class="form-label">Which event? <span class="form-required">*</span></label>
-              <select class="form-select" id="rsvp-event" required>
+              <select class="form-select" id="rsvp-event" required onchange="onEventChange()">
                 <option value="">Select an event...</option>
                 <option>Wassail Holiday Open House - 2026</option>
                 <option>Halloween Costume Party - 2026</option>
@@ -214,6 +214,7 @@
       try {
         const res = await fetch(`${SUPABASE_URL}/rest/v1/${SIGNUPS_TABLE}?select=*`, {
           credentials: 'omit',
+          cache: 'no-store',
           headers: {
             'apikey': SUPABASE_KEY,
             'Authorization': `Bearer ${SUPABASE_KEY}`,
@@ -227,11 +228,24 @@
       }
     }
 
+    function onEventChange() {
+      selectedItem = null;
+      renderItems();
+    }
+
     function renderItems() {
       const list = document.getElementById('item-list');
+      const currentEvent = document.getElementById('rsvp-event').value;
+
+      if (!currentEvent) {
+        list.innerHTML = '<div style="font-size:13px;color:var(--gray-500);text-align:center;padding:16px;">Select an event above to see what\'s needed.</div>';
+        return;
+      }
+
+      const eventSignups = signups.filter(s => s.event === currentEvent);
       let html = '';
       FIXED_ITEMS.forEach(item => {
-        const match = signups.find(s => s.item === item);
+        const match = eventSignups.find(s => s.item === item);
         if (match) {
           html += `<div class="item-row claimed"><div class="item-icon">${EMOJIS[item] || '🍴'}</div><div class="item-info"><div class="item-name">${item}</div><div class="item-claimant">Claimed by ${match.name}</div></div><div class="claimed-badge">✓ Taken</div></div>`;
         } else {
@@ -239,7 +253,7 @@
           html += `<div class="item-row ${isSelected ? 'claimed' : ''}"><div class="item-icon">${EMOJIS[item] || '🍴'}</div><div class="item-info"><div class="item-name">${item}</div>${isSelected ? '<div class="item-claimant">Selected by you</div>' : ''}</div><button class="claim-btn ${isSelected ? 'selected' : ''}" onclick="selectItem(this)" data-item="${item}">${isSelected ? '✓ Selected' : "I'll bring this"}</button></div>`;
         }
       });
-      signups.filter(s => !FIXED_ITEMS.includes(s.item)).forEach(s => {
+      eventSignups.filter(s => !FIXED_ITEMS.includes(s.item)).forEach(s => {
         html += `<div class="item-row claimed"><div class="item-icon">🍴</div><div class="item-info"><div class="item-name">${s.item}</div><div class="item-claimant">Brought by ${s.name}</div></div><div class="claimed-badge">✓ Added</div></div>`;
       });
       list.innerHTML = html;
@@ -278,11 +292,12 @@
       const name = document.getElementById('modal-name-input').value.trim();
       if (!name) return;
       const item = claimingItem;
+      const event = document.getElementById('rsvp-event').value;
       closeModal();
       await fetch(`${SUPABASE_URL}/rest/v1/${SIGNUPS_TABLE}`, {
         method: 'POST', credentials: 'omit',
         headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}`, 'Content-Type': 'application/json', 'Prefer': 'return=minimal' },
-        body: JSON.stringify({ item, name })
+        body: JSON.stringify({ item, name, event })
       });
       await loadSignups();
     }
@@ -311,7 +326,7 @@
           await fetch(`${SUPABASE_URL}/rest/v1/${SIGNUPS_TABLE}`, {
             method: 'POST', credentials: 'omit',
             headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}`, 'Content-Type': 'application/json', 'Prefer': 'return=minimal' },
-            body: JSON.stringify({ item: selectedItem, name })
+            body: JSON.stringify({ item: selectedItem, name, event })
           });
         }
 
