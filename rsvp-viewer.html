@@ -240,10 +240,7 @@
     const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ0c2p3a2J2cXFkbmt2Z3VxemNtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg2MjIwMzksImV4cCI6MjA5NDE5ODAzOX0.b9FqXDoQFiqEp2te8BXaC4WiKNdQ4JJzNpY625w3R5Q';
     const TABLE = 'rsvps';
 
-    // ── SET YOUR VIEWER PASSWORD ──
-    const VIEWER_PASSWORD = atob('ZG93ZGxlMjAyNiE='); // dowdle2026!
-
-    let allRsvps = [];
+       let allRsvps = [];
 
     document.getElementById('password-input').addEventListener('keydown', e => {
       if (e.key === 'Enter') checkPassword();
