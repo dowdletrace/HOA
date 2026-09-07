@@ -177,6 +177,22 @@
   letter-spacing: 0.02em;
 }
 
+.calendar-actions {
+  display: flex;
+  gap: 14px;
+  margin-top: 10px;
+}
+.calendar-link {
+  font-size: 12px;
+  font-weight: 500;
+  color: var(--green-mid);
+  cursor: pointer;
+  text-decoration: none;
+}
+.calendar-link:hover {
+  text-decoration: underline;
+}
+
 .modal {
   display: none;
   position: fixed;
@@ -269,6 +285,22 @@
           </div>
         <p>Join us for lunch at this newly renovated, historic inn. An afternoon of strolling and shopping in Dillsboro afterwards! All together a delightful way to spend a fall afternoon with good company!</p>
         <a href="rsvp.html" class="event-rsvp">RSVP Here!</a>
+        <div class="calendar-actions">
+          <a class="calendar-link"
+             data-title="Ladies' Lunch - Sept - 2026"
+             data-start="2026-09-30T11:30:00"
+             data-end="2026-09-30T13:30:00"
+             data-location="Jarret House - Dillsboro - 518 Haywood Rd, Sylva, NC 28779"
+             data-description="Join us for lunch at this newly renovated, historic inn. An afternoon of strolling and shopping in Dillsboro afterwards!"
+             onclick="addToGoogleCalendar(this)">📅 Google Calendar</a>
+          <a class="calendar-link"
+             data-title="Ladies' Lunch - Sept - 2026"
+             data-start="2026-09-30T11:30:00"
+             data-end="2026-09-30T13:30:00"
+             data-location="Jarret House - Dillsboro - 518 Haywood Rd, Sylva, NC 28779"
+             data-description="Join us for lunch at this newly renovated, historic inn. An afternoon of strolling and shopping in Dillsboro afterwards!"
+             onclick="downloadIcs(this)">📥 Apple/Outlook (.ics)</a>
+        </div>
       </div>
     </div>
 
@@ -440,6 +472,59 @@
   <span class="close">&times;</span>
   <img class="modal-content" id="flyer-full">
 </div>
+
+<script>
+  function toCompact(dtStr) {
+    return dtStr.replace(/[-:]/g, '');
+  }
+
+  function icsEscape(str) {
+    return str.replace(/\\/g, '\\\\').replace(/;/g, '\\;').replace(/,/g, '\\,').replace(/\n/g, '\\n');
+  }
+
+  function addToGoogleCalendar(el) {
+    const title = el.dataset.title;
+    const start = toCompact(el.dataset.start);
+    const end = toCompact(el.dataset.end);
+    const url = `https://calendar.google.com/calendar/render?action=TEMPLATE&text=${encodeURIComponent(title)}&dates=${start}/${end}&details=${encodeURIComponent(el.dataset.description)}&location=${encodeURIComponent(el.dataset.location)}&ctz=America/New_York`;
+    window.open(url, '_blank');
+  }
+
+  function downloadIcs(el) {
+    const title = el.dataset.title;
+    const start = el.dataset.start;
+    const end = el.dataset.end;
+    const location = el.dataset.location;
+    const description = el.dataset.description;
+    const dtStamp = new Date().toISOString().replace(/[-:]/g, '').split('.')[0] + 'Z';
+
+    const ics = [
+      'BEGIN:VCALENDAR',
+      'VERSION:2.0',
+      'PRODID:-//Dowdle Trace Community//Events//EN',
+      'BEGIN:VEVENT',
+      `UID:${Date.now()}-${Math.random().toString(36).slice(2)}@dowdletracecommunity.org`,
+      `DTSTAMP:${dtStamp}`,
+      `DTSTART:${toCompact(start)}`,
+      `DTEND:${toCompact(end)}`,
+      `SUMMARY:${icsEscape(title)}`,
+      `LOCATION:${icsEscape(location)}`,
+      `DESCRIPTION:${icsEscape(description)}`,
+      'END:VEVENT',
+      'END:VCALENDAR'
+    ].join('\r\n');
+
+    const blob = new Blob([ics], { type: 'text/calendar;charset=utf-8' });
+    const link = document.createElement('a');
+    link.href = URL.createObjectURL(blob);
+    link.download = title.toLowerCase().replace(/[^a-z0-9]+/g, '-') + '.ics';
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+    URL.revokeObjectURL(link.href);
+  }
+</script>
+
   <script src="nav.js"></script>
 </body>
 </html>
