@@ -242,11 +242,7 @@
 
        let allRsvps = [];
 
-    document.getElementById('password-input').addEventListener('keydown', e => {
-      if (e.key === 'Enter') checkPassword();
-    });
-
-    async function loadRsvps() {
+      async function loadRsvps() {
       try {
         const res = await fetch(`${SUPABASE_URL}/rest/v1/${TABLE}?select=*&order=id.asc`, {
           credentials: 'omit',
