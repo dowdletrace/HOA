@@ -10,120 +10,58 @@
   <link rel="stylesheet" href="style.css" />
   <link rel="stylesheet" href="nav.css" />
   <link rel="icon" type="image/svg+xml" href="favicon.svg" />
-  <link rel="icon" type="image/png" href="favicon.png" sizes="32x32">
   <style>
-    .rsvp-wrap { max-width: 520px; margin: 0 auto; }
-
-    .rsvp-card {
-      background: var(--gray-50);
-      border-radius: 14px;
-      padding: 28px;
-      margin-bottom: 16px;
-    }
-
-    .form-section-title {
-      font-size: 11px;
-      font-weight: 500;
-      letter-spacing: 0.1em;
-      text-transform: uppercase;
-      color: var(--green-mid);
-      margin-bottom: 16px;
-      padding-bottom: 10px;
-      border-bottom: 1px solid var(--gray-200);
-    }
-
+    .rsvp-wrap { max-width: 580px; margin: 0 auto; }
+    .notice { background: var(--green-light); border-radius: 10px; padding: 14px 18px; font-size: 13px; color: var(--green-deep); line-height: 1.6; margin-bottom: 24px; }
+    .form-card { background: var(--gray-50); border-radius: 14px; padding: 24px 22px; margin-bottom: 14px; }
+    .form-section-title { font-size: 11px; font-weight: 500; letter-spacing: 0.1em; text-transform: uppercase; color: var(--green-mid); margin-bottom: 16px; padding-bottom: 10px; border-bottom: 1px solid var(--gray-200); }
     .form-row { display: grid; grid-template-columns: 1fr 1fr; gap: 14px; margin-bottom: 14px; }
     .form-row.full { grid-template-columns: 1fr; }
     .form-field { display: flex; flex-direction: column; gap: 5px; }
     .form-label { font-size: 12px; font-weight: 500; color: var(--gray-500); }
     .form-required { color: #E24B4A; margin-left: 2px; }
-
-    .form-input {
-      height: 38px;
-      border: 1px solid var(--gray-200);
-      border-radius: 8px;
-      padding: 0 12px;
-      font-size: 14px;
-      font-family: var(--font-body);
-      background: var(--white);
-      color: var(--gray-900);
-      transition: border-color 0.2s;
-    }
+    .form-input { height: 38px; border: 1px solid var(--gray-200); border-radius: 8px; padding: 0 12px; font-size: 14px; font-family: var(--font-body); background: var(--white); color: var(--gray-900); transition: border-color 0.2s; }
     .form-input:focus { outline: none; border-color: var(--green-mid); }
-
-    .form-select {
-      height: 38px;
-      border: 1px solid var(--gray-200);
-      border-radius: 8px;
-      padding: 0 12px;
-      font-size: 14px;
-      font-family: var(--font-body);
-      background: var(--white);
-      color: var(--gray-900);
-      width: 100%;
-      transition: border-color 0.2s;
-    }
+    .form-select { height: 38px; border: 1px solid var(--gray-200); border-radius: 8px; padding: 0 12px; font-size: 14px; font-family: var(--font-body); background: var(--white); color: var(--gray-900); width: 100%; transition: border-color 0.2s; }
     .form-select:focus { outline: none; border-color: var(--green-mid); }
-
-    .form-submit {
-      background: var(--green-mid);
-      color: white;
-      border: none;
-      border-radius: 8px;
-      padding: 12px 24px;
-      font-size: 15px;
-      font-weight: 500;
-      cursor: pointer;
-      font-family: var(--font-body);
-      width: 100%;
-      transition: opacity 0.2s;
-      margin-top: 4px;
-    }
+    .bring-toggle { display: flex; align-items: center; gap: 12px; padding: 16px 22px; background: var(--gray-50); border-radius: 14px; margin-bottom: 14px; cursor: pointer; border: 1.5px solid transparent; transition: border-color 0.2s; }
+    .bring-toggle:hover { border-color: var(--green-mid); }
+    .bring-toggle input[type="checkbox"] { width: 18px; height: 18px; accent-color: var(--green-mid); cursor: pointer; flex-shrink: 0; }
+    .bring-toggle-text h4 { font-size: 14px; font-weight: 500; color: var(--gray-900); margin-bottom: 2px; }
+    .bring-toggle-text p { font-size: 12px; color: var(--gray-500); }
+    .items-section { display: none; }
+    .items-section.visible { display: block; }
+    .item-list { display: flex; flex-direction: column; gap: 8px; margin-bottom: 14px; }
+    .item-row { display: flex; align-items: center; gap: 14px; background: var(--white); border-radius: 10px; padding: 12px 16px; border: 1px solid transparent; transition: border-color 0.15s, background 0.15s; }
+    .item-row.claimed { background: #F0FDF4; border-color: #BBF7D0; }
+    .item-icon { font-size: 18px; flex-shrink: 0; width: 28px; text-align: center; }
+    .item-info { flex: 1; }
+    .item-name { font-size: 14px; font-weight: 500; color: var(--gray-900); }
+    .item-claimant { font-size: 12px; color: var(--green-mid); margin-top: 2px; }
+    .claim-btn { font-size: 12px; font-weight: 500; padding: 6px 14px; border-radius: 6px; border: 1px solid var(--green-mid); background: none; color: var(--green-mid); cursor: pointer; font-family: var(--font-body); transition: background 0.15s, color 0.15s; white-space: nowrap; }
+    .claim-btn:hover, .claim-btn.selected { background: var(--green-mid); color: var(--white); }
+    .claimed-badge { font-size: 11px; font-weight: 500; color: #16A34A; }
+    .custom-item-row { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; margin-top: 4px; }
+    .modal-overlay { display: none; position: fixed; inset: 0; background: rgba(0,0,0,0.5); z-index: 200; align-items: center; justify-content: center; padding: 20px; }
+    .modal-overlay.active { display: flex; }
+    .modal { background: var(--white); border-radius: 14px; padding: 28px; width: 100%; max-width: 380px; }
+    .modal h3 { font-size: 16px; font-weight: 500; margin-bottom: 6px; }
+    .modal p { font-size: 13px; color: var(--gray-500); margin-bottom: 20px; line-height: 1.55; }
+    .modal-input { width: 100%; height: 38px; border: 1px solid var(--gray-200); border-radius: 8px; padding: 0 12px; font-size: 14px; font-family: var(--font-body); color: var(--gray-900); margin-bottom: 16px; }
+    .modal-input:focus { outline: none; border-color: var(--green-mid); }
+    .modal-btns { display: flex; gap: 10px; }
+    .modal-cancel { flex: 1; height: 38px; border: 1px solid var(--gray-200); border-radius: 8px; background: none; color: var(--gray-500); font-size: 13px; font-family: var(--font-body); cursor: pointer; }
+    .modal-confirm { flex: 2; height: 38px; background: var(--green-mid); color: var(--white); border: none; border-radius: 8px; font-size: 13px; font-weight: 500; font-family: var(--font-body); cursor: pointer; transition: opacity 0.2s; }
+    .modal-confirm:hover { opacity: 0.88; }
+    .form-submit { background: var(--green-mid); color: white; border: none; border-radius: 8px; padding: 13px 24px; font-size: 15px; font-weight: 500; cursor: pointer; font-family: var(--font-body); width: 100%; transition: opacity 0.2s; margin-top: 4px; }
     .form-submit:hover { opacity: 0.88; }
     .form-submit:disabled { opacity: 0.6; cursor: not-allowed; }
-
-    .success-message {
-      display: none;
-      background: #EAF3DE;
-      border-radius: 14px;
-      padding: 32px 28px;
-      text-align: center;
-    }
-    .success-message h3 {
-      font-family: var(--font-display);
-      font-size: 22px;
-      font-weight: 500;
-      color: var(--green-deep);
-      margin-bottom: 8px;
-    }
+    .success-message { display: none; background: #EAF3DE; border-radius: 14px; padding: 32px 28px; text-align: center; }
+    .success-message h3 { font-family: var(--font-display); font-size: 22px; font-weight: 500; color: var(--green-deep); margin-bottom: 8px; }
     .success-message p { font-size: 14px; color: var(--green-mid); line-height: 1.65; margin-bottom: 20px; }
-    .success-back {
-      display: inline-block;
-      font-size: 13px;
-      color: var(--green-mid);
-      font-weight: 500;
-      text-decoration: none;
-      border: 1px solid var(--green-mid);
-      padding: 8px 20px;
-      border-radius: 8px;
-      transition: background 0.2s, color 0.2s;
-    }
+    .success-back { display: inline-block; font-size: 13px; color: var(--green-mid); font-weight: 500; text-decoration: none; border: 1px solid var(--green-mid); padding: 8px 20px; border-radius: 8px; transition: background 0.2s, color 0.2s; }
     .success-back:hover { background: var(--green-mid); color: white; }
-
-    .notice {
-      background: var(--green-light);
-      border-radius: 10px;
-      padding: 14px 18px;
-      font-size: 13px;
-      color: var(--green-deep);
-      line-height: 1.6;
-      margin-bottom: 24px;
-    }
-
-    @media (max-width: 600px) {
-      .form-row { grid-template-columns: 1fr; }
-      .rsvp-card { padding: 20px; }
-    }
+    @media (max-width: 600px) { .form-row { grid-template-columns: 1fr; } .form-card { padding: 18px; } .custom-item-row { grid-template-columns: 1fr; } }
   </style>
 </head>
 <body>
@@ -145,19 +83,19 @@
   <div class="page-header" style="text-align:center;">
     <div class="page-header-eyebrow">Dowdle Trace community</div>
     <h1>RSVP to an event</h1>
-    <p style="margin:0 auto;">Let us know you're coming so we can plan ahead.</p>
+    <p style="margin:0 auto;">Let us know you're coming — and what you'd like to bring!</p>
   </div>
 
   <section>
     <div class="rsvp-wrap">
 
       <div class="notice">
-        RSVPs help the board plan food, seating, and activities. See you there!
+        RSVPs help the board plan for each event. If you'd like to contribute a dish or item, you can sign up below after filling in your details.
       </div>
 
-      <form id="rsvp-form">
+      <div id="rsvp-form-wrap">
 
-        <div class="rsvp-card">
+        <div class="form-card">
           <div class="form-section-title">Your information</div>
           <div class="form-row">
             <div class="form-field">
@@ -171,15 +109,16 @@
           </div>
         </div>
 
-        <div class="rsvp-card">
+        <div class="form-card">
           <div class="form-section-title">Event details</div>
           <div class="form-row full" style="margin-bottom:14px;">
             <div class="form-field">
               <label class="form-label">Which event? <span class="form-required">*</span></label>
               <select class="form-select" id="rsvp-event" required>
                 <option value="">Select an event...</option>
-                <option>Wassail Holiday Open House - 2026</option>
-                <option>Halloween Costume Party - 2026</option>
+                <option>Annual POA Meeting — July 26</option>
+                <option>Dowdle Trace BBQ — July 27</option>
+                <option>Summer Cookout — June 7</option>
               </select>
             </div>
           </div>
@@ -198,18 +137,52 @@
           </div>
         </div>
 
-        <button type="submit" class="form-submit" id="rsvp-submit">Submit RSVP</button>
+        <label class="bring-toggle">
+          <input type="checkbox" id="bring-checkbox" onchange="toggleBringSection()" />
+          <div class="bring-toggle-text">
+            <h4>I'd like to bring something</h4>
+            <p>Claim an item from the list or add your own</p>
+          </div>
+        </label>
 
-      </form>
+        <div class="items-section form-card" id="items-section">
+          <div class="form-section-title">What are you bringing?</div>
+          <div class="item-list" id="item-list">
+            <div style="font-size:13px;color:var(--gray-500);text-align:center;padding:16px;">Loading available items...</div>
+          </div>
+          <div style="margin-top:8px;">
+            <div class="form-label" style="margin-bottom:8px;">Or add your own item:</div>
+            <div class="custom-item-row">
+              <input class="form-input" type="text" id="custom-dish" placeholder="e.g. Pasta salad" />
+              <button type="button" onclick="addCustomItem()" style="height:38px;padding:0 16px;background:var(--green-mid);color:white;border:none;border-radius:8px;font-size:13px;font-weight:500;font-family:var(--font-body);cursor:pointer;">Add item</button>
+            </div>
+          </div>
+        </div>
+
+        <button type="button" class="form-submit" id="rsvp-submit" onclick="submitRsvp()">Submit RSVP</button>
+
+      </div>
 
       <div class="success-message" id="success-message">
         <h3>You're on the list! 🎉</h3>
-        <p>Thanks for letting us know — we'll see you there. Keep an eye on the announcements page for any event updates.</p>
+        <p id="success-text">Thanks for letting us know — we'll see you there!</p>
         <a href="events.html" class="success-back">← Back to events</a>
       </div>
 
     </div>
   </section>
+
+  <div class="modal-overlay" id="modal">
+    <div class="modal">
+      <h3>Claim this item</h3>
+      <p>Confirm your name to claim <strong id="modal-item-name"></strong>.</p>
+      <input class="modal-input" type="text" id="modal-name-input" placeholder="Your name" />
+      <div class="modal-btns">
+        <button class="modal-cancel" onclick="closeModal()">Cancel</button>
+        <button class="modal-confirm" onclick="confirmClaim()">Claim it</button>
+      </div>
+    </div>
+  </div>
 
   <footer>
     <p>Dowdle Trace Community &middot; Franklin, NC 28734</p>
@@ -218,55 +191,151 @@
 
   <script src="nav.js"></script>
   <script>
-    // ── REPLACE WITH YOUR RSVP SUPABASE CREDENTIALS ──
     const SUPABASE_URL = 'https://btsjwkbvqqdnkvguqzcm.supabase.co';
     const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ0c2p3a2J2cXFkbmt2Z3VxemNtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg2MjIwMzksImV4cCI6MjA5NDE5ODAzOX0.b9FqXDoQFiqEp2te8BXaC4WiKNdQ4JJzNpY625w3R5Q';
-    const TABLE = 'rsvps';
+    const RSVP_TABLE = 'rsvps';
+    const SIGNUPS_TABLE = 'signups';
 
-    document.getElementById('rsvp-form').addEventListener('submit', async e => {
-      e.preventDefault();
+    const FIXED_ITEMS = [
+      'Soft Drinks', 'Sweet Tea', 'Unsweet Tea', 'Chips',
+      'Salad', 'Rolls', 'Dessert',
+      'Additional Protein (ex. meatballs)', 'Side (ex. Corn)'
+    ];
+    const EMOJIS = {
+      'Soft Drinks': '🥤', 'Sweet Tea': '🧋', 'Unsweet Tea': '🍵',
+      'Chips': '🥔', 'Salad': '🥗', 'Rolls': '🍞', 'Dessert': '🍰',
+      'Additional Protein (ex. meatballs)': '🥩', 'Side (ex. Corn)': '🌽'
+    };
 
+    let signups = [];
+    let selectedItem = null;
+    let claimingItem = null;
+
+    async function loadSignups() {
+      try {
+        const res = await fetch(`${SUPABASE_URL}/rest/v1/${SIGNUPS_TABLE}?select=*`, {
+          credentials: 'omit',
+          headers: {
+            'apikey': SUPABASE_KEY,
+            'Authorization': `Bearer ${SUPABASE_KEY}`,
+            'Content-Type': 'application/json'
+          }
+        });
+        signups = await res.json();
+        renderItems();
+      } catch(e) {
+        document.getElementById('item-list').innerHTML = '<div style="font-size:13px;color:var(--gray-500);text-align:center;padding:16px;">Unable to load items — please refresh.</div>';
+      }
+    }
+
+    function renderItems() {
+      const list = document.getElementById('item-list');
+      let html = '';
+      FIXED_ITEMS.forEach(item => {
+        const match = signups.find(s => s.item === item);
+        if (match) {
+          html += `<div class="item-row claimed"><div class="item-icon">${EMOJIS[item] || '🍴'}</div><div class="item-info"><div class="item-name">${item}</div><div class="item-claimant">Claimed by ${match.name}</div></div><div class="claimed-badge">✓ Taken</div></div>`;
+        } else {
+          const isSelected = selectedItem === item;
+          html += `<div class="item-row ${isSelected ? 'claimed' : ''}"><div class="item-icon">${EMOJIS[item] || '🍴'}</div><div class="item-info"><div class="item-name">${item}</div>${isSelected ? '<div class="item-claimant">Selected by you</div>' : ''}</div><button class="claim-btn ${isSelected ? 'selected' : ''}" onclick="selectItem(this)" data-item="${item}">${isSelected ? '✓ Selected' : "I'll bring this"}</button></div>`;
+        }
+      });
+      signups.filter(s => !FIXED_ITEMS.includes(s.item)).forEach(s => {
+        html += `<div class="item-row claimed"><div class="item-icon">🍴</div><div class="item-info"><div class="item-name">${s.item}</div><div class="item-claimant">Brought by ${s.name}</div></div><div class="claimed-badge">✓ Added</div></div>`;
+      });
+      list.innerHTML = html;
+    }
+
+    function selectItem(btn) {
+      const item = btn.getAttribute('data-item');
+      selectedItem = selectedItem === item ? null : item;
+      renderItems();
+    }
+
+    function addCustomItem() {
+      const dish = document.getElementById('custom-dish').value.trim();
+      if (!dish) return;
+      selectedItem = dish;
+      document.getElementById('custom-dish').value = '';
+      const list = document.getElementById('item-list');
+      const div = document.createElement('div');
+      div.className = 'item-row claimed';
+      div.innerHTML = `<div class="item-icon">🍴</div><div class="item-info"><div class="item-name">${dish}</div><div class="item-claimant">Added by you</div></div><div class="claimed-badge">✓ Added</div>`;
+      list.appendChild(div);
+    }
+
+    function toggleBringSection() {
+      const section = document.getElementById('items-section');
+      const checked = document.getElementById('bring-checkbox').checked;
+      section.classList.toggle('visible', checked);
+    }
+
+    function closeModal() {
+      document.getElementById('modal').classList.remove('active');
+      claimingItem = null;
+    }
+
+    async function confirmClaim() {
+      const name = document.getElementById('modal-name-input').value.trim();
+      if (!name) return;
+      const item = claimingItem;
+      closeModal();
+      await fetch(`${SUPABASE_URL}/rest/v1/${SIGNUPS_TABLE}`, {
+        method: 'POST', credentials: 'omit',
+        headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}`, 'Content-Type': 'application/json', 'Prefer': 'return=minimal' },
+        body: JSON.stringify({ item, name })
+      });
+      await loadSignups();
+    }
+
+    async function submitRsvp() {
       const name = document.getElementById('rsvp-name').value.trim();
       const email = document.getElementById('rsvp-email').value.trim();
       const event = document.getElementById('rsvp-event').value;
       const guests = document.getElementById('rsvp-guests').value;
+      const bringing = document.getElementById('bring-checkbox').checked;
 
-      if (!name || !email || !event || !guests) return;
+      if (!name || !email || !event || !guests) { alert('Please fill in all required fields.'); return; }
 
       const btn = document.getElementById('rsvp-submit');
       btn.textContent = 'Submitting...';
       btn.disabled = true;
 
       try {
-        const res = await fetch(`${SUPABASE_URL}/rest/v1/${TABLE}`, {
-          method: 'POST',
-          credentials: 'omit',
-          headers: {
-            'apikey': SUPABASE_KEY,
-            'Authorization': `Bearer ${SUPABASE_KEY}`,
-            'Content-Type': 'application/json',
-            'Prefer': 'return=minimal'
-          },
+        const rsvpRes = await fetch(`${SUPABASE_URL}/rest/v1/${RSVP_TABLE}`, {
+          method: 'POST', credentials: 'omit',
+          headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}`, 'Content-Type': 'application/json', 'Prefer': 'return=minimal' },
           body: JSON.stringify({ name, email, event, guests })
         });
 
-        if (res.ok) {
-          document.getElementById('rsvp-form').style.display = 'none';
+        if (bringing && selectedItem) {
+          await fetch(`${SUPABASE_URL}/rest/v1/${SIGNUPS_TABLE}`, {
+            method: 'POST', credentials: 'omit',
+            headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}`, 'Content-Type': 'application/json', 'Prefer': 'return=minimal' },
+            body: JSON.stringify({ item: selectedItem, name })
+          });
+        }
+
+        if (rsvpRes.ok) {
+          document.getElementById('rsvp-form-wrap').style.display = 'none';
+          document.getElementById('success-text').textContent = bringing && selectedItem
+            ? `Thanks for letting us know — we'll see you there! You're signed up to bring ${selectedItem}.`
+            : `Thanks for letting us know — we'll see you there! Keep an eye on the announcements page for any event updates.`;
           document.getElementById('success-message').style.display = 'block';
         } else {
-          const data = await res.json();
-          if (res.status === 409 || (data.code && data.code === '23505')) {
-            btn.textContent = 'You have already RSVPed for this event';
-          } else {
-            btn.textContent = 'Something went wrong — please try again';
-          }
+          btn.textContent = 'Something went wrong — please try again';
           btn.disabled = false;
         }
       } catch(e) {
         btn.textContent = 'Something went wrong — please try again';
         btn.disabled = false;
       }
-    });
+    }
+
+    document.getElementById('modal').addEventListener('click', e => { if (e.target === document.getElementById('modal')) closeModal(); });
+    document.getElementById('modal-name-input').addEventListener('keydown', e => { if (e.key === 'Enter') confirmClaim(); });
+
+    loadSignups();
   </script>
 
 </body>
