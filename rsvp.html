@@ -56,6 +56,7 @@
     .form-submit { background: var(--green-mid); color: white; border: none; border-radius: 8px; padding: 13px 24px; font-size: 15px; font-weight: 500; cursor: pointer; font-family: var(--font-body); width: 100%; transition: opacity 0.2s; margin-top: 4px; }
     .form-submit:hover { opacity: 0.88; }
     .form-submit:disabled { opacity: 0.6; cursor: not-allowed; }
+    .duplicate-error { font-size: 13px; color: #DC2626; margin-top: 10px; text-align: center; display: none; line-height: 1.5; }
     .success-message { display: none; background: #EAF3DE; border-radius: 14px; padding: 32px 28px; text-align: center; }
     .success-message h3 { font-family: var(--font-display); font-size: 22px; font-weight: 500; color: var(--green-deep); margin-bottom: 8px; }
     .success-message p { font-size: 14px; color: var(--green-mid); line-height: 1.65; margin-bottom: 20px; }
@@ -159,6 +160,7 @@
         </div>
 
         <button type="button" class="form-submit" id="rsvp-submit" onclick="submitRsvp()">Submit RSVP</button>
+        <div class="duplicate-error" id="duplicate-error">You've already RSVP'd for this event with this email address. If you need to make a change, please contact the board.</div>
 
       </div>
 
@@ -230,6 +232,7 @@
 
     function onEventChange() {
       selectedItem = null;
+      document.getElementById('duplicate-error').style.display = 'none';
       renderItems();
     }
 
@@ -302,12 +305,28 @@
       await loadSignups();
     }
 
+    async function alreadyRsvped(email, event) {
+      const res = await fetch(`${SUPABASE_URL}/rest/v1/${RSVP_TABLE}?select=id&event=eq.${encodeURIComponent(event)}&email=ilike.${encodeURIComponent(email)}`, {
+        credentials: 'omit',
+        cache: 'no-store',
+        headers: {
+          'apikey': SUPABASE_KEY,
+          'Authorization': `Bearer ${SUPABASE_KEY}`,
+          'Content-Type': 'application/json'
+        }
+      });
+      const rows = await res.json();
+      return Array.isArray(rows) && rows.length > 0;
+    }
+
     async function submitRsvp() {
       const name = document.getElementById('rsvp-name').value.trim();
       const email = document.getElementById('rsvp-email').value.trim();
       const event = document.getElementById('rsvp-event').value;
       const guests = document.getElementById('rsvp-guests').value;
       const bringing = document.getElementById('bring-checkbox').checked;
+
+      document.getElementById('duplicate-error').style.display = 'none';
 
       if (!name || !email || !event || !guests) { alert('Please fill in all required fields.'); return; }
 
@@ -316,11 +335,25 @@
       btn.disabled = true;
 
       try {
+        if (await alreadyRsvped(email, event)) {
+          document.getElementById('duplicate-error').style.display = 'block';
+          btn.textContent = 'Submit RSVP';
+          btn.disabled = false;
+          return;
+        }
+
         const rsvpRes = await fetch(`${SUPABASE_URL}/rest/v1/${RSVP_TABLE}`, {
           method: 'POST', credentials: 'omit',
           headers: { 'apikey': SUPABASE_KEY, 'Authorization': `Bearer ${SUPABASE_KEY}`, 'Content-Type': 'application/json', 'Prefer': 'return=minimal' },
           body: JSON.stringify({ name, email, event, guests })
         });
+
+        if (rsvpRes.status === 409) {
+          document.getElementById('duplicate-error').style.display = 'block';
+          btn.textContent = 'Submit RSVP';
+          btn.disabled = false;
+          return;
+        }
 
         if (bringing && selectedItem) {
           await fetch(`${SUPABASE_URL}/rest/v1/${SIGNUPS_TABLE}`, {
