@@ -178,18 +178,17 @@
   letter-spacing: 0.02em;
 }
 
+.calendar-actions {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 10px 14px;
+  margin-top: 12px;
+}
 .calendar-label {
   font-size: 12px;
   font-weight: 500;
   color: var(--gray-500);
-  margin-top: 12px;
-  margin-bottom: 6px;
-}
-
-.calendar-actions {
-  display: flex;
-  gap: 14px;
-  margin-top: 10px;
 }
 .calendar-link {
   font-size: 12px;
@@ -293,9 +292,9 @@
           </div>
           </div>
         <p>Join us for lunch at this newly renovated, historic inn. An afternoon of strolling and shopping in Dillsboro afterwards! All together a delightful way to spend a fall afternoon with good company!</p>
-               <a href="rsvp.html" class="event-rsvp">RSVP Here!</a>
-        <div class="calendar-label">Add this to your calendar:</div>
+                      <a href="rsvp.html" class="event-rsvp">RSVP Here!</a>
         <div class="calendar-actions">
+          <span class="calendar-label">Add this to your calendar:</span>
           <a class="calendar-link"
              data-title="Ladies' Lunch - Sept - 2026"
              data-start="2026-09-30T11:30:00"
