@@ -306,17 +306,37 @@
     }
 
     async function alreadyRsvped(email, event) {
-      const res = await fetch(`${SUPABASE_URL}/rest/v1/${RSVP_TABLE}?select=id&event=eq.${encodeURIComponent(event)}&email=ilike.${encodeURIComponent(email)}`, {
-        credentials: 'omit',
-        cache: 'no-store',
-        headers: {
-          'apikey': SUPABASE_KEY,
-          'Authorization': `Bearer ${SUPABASE_KEY}`,
-          'Content-Type': 'application/json'
+      try {
+        const res = await fetch(`${SUPABASE_URL}/rest/v1/${RSVP_TABLE}?select=id&event=eq.${encodeURIComponent(event)}&email=ilike.${encodeURIComponent(email)}`, {
+          credentials: 'omit',
+          cache: 'no-store',
+          headers: {
+            'apikey': SUPABASE_KEY,
+            'Authorization': `Bearer ${SUPABASE_KEY}`,
+            'Content-Type': 'application/json'
+          }
+        });
+        if (!res.ok) {
+          console.error('RSVP duplicate pre-check returned', res.status, await res.text());
+          return false;
         }
-      });
-      const rows = await res.json();
-      return Array.isArray(rows) && rows.length > 0;
+        const rows = await res.json();
+        return Array.isArray(rows) && rows.length > 0;
+      } catch (e) {
+        console.error('RSVP duplicate pre-check failed:', e);
+        return false;
+      }
+    }
+
+    async function isDuplicateError(res) {
+      if (res.status === 409) return true;
+      try {
+        const body = await res.clone().json();
+        const text = `${body.message || ''} ${body.details || ''} ${body.hint || ''}`.toLowerCase();
+        return text.includes('duplicate') || text.includes('unique') || text.includes('already exists');
+      } catch (e) {
+        return false;
+      }
     }
 
     async function submitRsvp() {
@@ -348,9 +368,14 @@
           body: JSON.stringify({ name, email, event, guests })
         });
 
-        if (rsvpRes.status === 409) {
-          document.getElementById('duplicate-error').style.display = 'block';
-          btn.textContent = 'Submit RSVP';
+        if (!rsvpRes.ok) {
+          if (await isDuplicateError(rsvpRes)) {
+            document.getElementById('duplicate-error').style.display = 'block';
+            btn.textContent = 'Submit RSVP';
+          } else {
+            console.error('RSVP insert failed:', rsvpRes.status, await rsvpRes.clone().text());
+            btn.textContent = 'Something went wrong — please try again';
+          }
           btn.disabled = false;
           return;
         }
@@ -363,16 +388,11 @@
           });
         }
 
-        if (rsvpRes.ok) {
-          document.getElementById('rsvp-form-wrap').style.display = 'none';
-          document.getElementById('success-text').textContent = bringing && selectedItem
-            ? `Thanks for letting us know — we'll see you there! You're signed up to bring ${selectedItem}.`
-            : `Thanks for letting us know — we'll see you there! Keep an eye on the announcements page for any event updates.`;
-          document.getElementById('success-message').style.display = 'block';
-        } else {
-          btn.textContent = 'Something went wrong — please try again';
-          btn.disabled = false;
-        }
+        document.getElementById('rsvp-form-wrap').style.display = 'none';
+        document.getElementById('success-text').textContent = bringing && selectedItem
+          ? `Thanks for letting us know — we'll see you there! You're signed up to bring ${selectedItem}.`
+          : `Thanks for letting us know — we'll see you there! Keep an eye on the announcements page for any event updates.`;
+        document.getElementById('success-message').style.display = 'block';
       } catch(e) {
         btn.textContent = 'Something went wrong — please try again';
         btn.disabled = false;
