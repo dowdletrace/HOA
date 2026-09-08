@@ -296,46 +296,46 @@
     }
 
     function renderTable(data) {
-      const container = document.getElementById('table-container');
-      const badge = document.getElementById('count-badge');
+  const container = document.getElementById('table-container');
+  const badge = document.getElementById('count-badge');
+  const selectedEvent = document.getElementById('event-filter').value;
 
-      const totalGuests = data.reduce((sum, r) => sum + (parseInt(r.guests) || 1), 0);
-      badge.textContent = `${data.length} RSVPs · ${totalGuests} guests`;
+  if (selectedEvent === 'all') {
+    const eventCount = new Set(data.map(r => r.event)).size;
+    badge.textContent = `${data.length} RSVPs across ${eventCount} event${eventCount === 1 ? '' : 's'}`;
+  } else {
+    const totalGuests = data.reduce((sum, r) => sum + (parseInt(r.guests) || 1), 0);
+    badge.textContent = `${data.length} RSVPs · ${totalGuests} guests`;
+  }
 
-      if (data.length === 0) {
-        container.innerHTML = '<div class="empty-state">No RSVPs found for this event yet.</div>';
-        return;
-      }
+  if (data.length === 0) {
+    container.innerHTML = '<div class="empty-state">No RSVPs found for this event yet.</div>';
+    return;
+  }
 
-      let html = `
-        <table class="rsvp-table">
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Email</th>
-              <th>Event</th>
-              <th>Guests</th>
-              <th>Bringing</th>
-            </tr>
-          </thead>
-          <tbody>
-      `;
+  let html = `
+    <table class="rsvp-table">
+      <thead>
+        <tr><th>Name</th><th>Email</th><th>Event</th><th>Guests</th><th>Bringing</th></tr>
+      </thead>
+      <tbody>
+  `;
 
-      data.forEach(r => {
-        html += `
-          <tr>
-            <td>${r.name}</td>
-            <td class="muted">${r.email}</td>
-            <td class="muted">${r.event}</td>
-            <td>${r.guests}</td>
-            <td class="muted">${getBringing(r.name, r.event)}</td>
-          </tr>
-        `;
-      });
+  data.forEach(r => {
+    html += `
+      <tr>
+        <td>${r.name}</td>
+        <td class="muted">${r.email}</td>
+        <td class="muted">${r.event}</td>
+        <td>${r.guests}</td>
+        <td class="muted">${getBringing(r.name, r.event)}</td>
+      </tr>
+    `;
+  });
 
-      html += '</tbody></table>';
-      container.innerHTML = html;
-    }
+  html += '</tbody></table>';
+  container.innerHTML = html;
+}
 
     loadRsvps();
   </script>
