@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Spending Request Decision — Dowdle Trace</title>
+  <title>Spending Request Decision - Dowdle Trace</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
@@ -44,6 +44,65 @@
     .result-message.error h2 { color: #9A3030; }
     .result-message p { font-size: 14px; color: var(--gray-500); line-height: 1.6; }
     .loading { font-size: 14px; color: var(--gray-500); padding: 20px 0; }
+
+    /* ── Capital improvement details ── */
+    .decide-wrap.wide { max-width: 720px; }
+    .cap-details { text-align: left; margin-bottom: 24px; }
+    .cap-block {
+      background: var(--white);
+      border: 1px solid var(--gray-200);
+      border-radius: 12px;
+      padding: 16px 18px;
+      margin-bottom: 12px;
+    }
+    .cap-block-title {
+      font-size: 11px;
+      font-weight: 500;
+      letter-spacing: 0.1em;
+      text-transform: uppercase;
+      color: var(--green-mid);
+      margin-bottom: 10px;
+    }
+    .cap-field { margin-bottom: 10px; }
+    .cap-field:last-child { margin-bottom: 0; }
+    .cap-label { font-size: 12px; font-weight: 500; color: var(--gray-500); margin-bottom: 2px; }
+    .cap-value { font-size: 14px; color: var(--gray-900); line-height: 1.55; white-space: pre-wrap; }
+    .cap-table { width: 100%; border-collapse: collapse; font-size: 13px; margin-bottom: 4px; }
+    .cap-table th {
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--gray-500);
+      text-align: left;
+      padding: 4px 6px 6px 0;
+      border-bottom: 1px solid var(--gray-200);
+    }
+    .cap-table td { padding: 6px 6px 6px 0; border-bottom: 1px solid var(--gray-50); color: var(--gray-900); vertical-align: top; }
+    .cap-table .num { text-align: right; font-variant-numeric: tabular-nums; white-space: nowrap; }
+    .cap-table tfoot td { border-bottom: none; border-top: 1px solid var(--gray-200); font-weight: 500; }
+    .cap-sub { font-size: 13px; font-weight: 500; color: var(--gray-900); margin: 14px 0 4px; }
+    .cap-sub:first-of-type { margin-top: 0; }
+    .cap-empty { font-size: 13px; color: var(--gray-500); }
+    .cap-grand {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      background: var(--green-light);
+      color: var(--green-deep);
+      border-radius: 10px;
+      padding: 12px 16px;
+      margin-top: 14px;
+    }
+    .cap-grand span { font-size: 13px; font-weight: 500; }
+    .cap-grand strong { font-family: var(--font-display); font-size: 20px; font-weight: 500; font-variant-numeric: tabular-nums; }
+    .cap-files { list-style: none; padding: 0; margin: 6px 0 0; }
+    .cap-files li { font-size: 13px; margin-bottom: 4px; }
+    .cap-files a { color: var(--green-mid); }
+    .table-scroll { overflow-x: auto; }
+
+    @media (max-width: 600px) {
+      .decide-card { padding: 24px 16px; }
+      .cap-block { padding: 14px; }
+    }
   </style>
 </head>
 <body>
@@ -68,7 +127,7 @@
   </div>
 
   <section>
-    <div class="decide-wrap">
+    <div class="decide-wrap" id="wrap">
       <div class="decide-card" id="content">
         <div class="loading">Loading request details...</div>
       </div>
@@ -92,8 +151,101 @@
 
     function escapeHtml(str) {
       const div = document.createElement('div');
-      div.textContent = str;
+      div.textContent = str == null ? '' : String(str);
       return div.innerHTML;
+    }
+
+    const money = n => '$' + (Number(n) || 0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    const qty = n => (Number(n) || 0).toLocaleString('en-US', { maximumFractionDigits: 2 });
+
+    function formatDate(iso) {
+      if (!iso) return '';
+      const [y, m, d] = iso.split('-').map(Number);
+      return new Date(y, m - 1, d).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
+    }
+
+    const DELIVERY_LABELS = {
+      upload: 'Uploaded with the request',
+      email: 'Will be emailed to dowdletrace@gmail.com',
+      paper: 'Paper copy to be delivered to a board member'
+    };
+
+    function field(label, value) {
+      if (value == null || value === '') return '';
+      return `<div class="cap-field"><div class="cap-label">${label}</div><div class="cap-value">${escapeHtml(value)}</div></div>`;
+    }
+
+    function lineTable(rows, cols, totalLabel, total) {
+      if (!rows || !rows.length) return '<div class="cap-empty">None listed</div>';
+      const head = cols.map(c => `<th class="${c.num ? 'num' : ''}">${c.label}</th>`).join('');
+      const body = rows.map(r => '<tr>' + cols.map(c =>
+        `<td class="${c.num ? 'num' : ''}">${c.fmt ? c.fmt(r[c.key]) : escapeHtml(r[c.key])}</td>`
+      ).join('') + '</tr>').join('');
+      return `<div class="table-scroll"><table class="cap-table"><thead><tr>${head}</tr></thead><tbody>${body}</tbody>
+        <tfoot><tr><td colspan="${cols.length - 1}">${totalLabel}</td><td class="num">${money(total)}</td></tr></tfoot></table></div>`;
+    }
+
+    // Full details for "Common area improvement" requests
+    function renderCapital(d) {
+      const files = (d.drawing_urls || []).map(f =>
+        `<li><a href="${escapeHtml(f.url)}" target="_blank" rel="noopener">${escapeHtml(f.name)}</a></li>`
+      ).join('');
+      const filesNote = d.drawing_delivery === 'upload' && !files && d.drawing_files && d.drawing_files.length
+        ? `<div class="cap-empty">${d.drawing_files.length} file(s) uploaded. Open them in Supabase under Storage &gt; capital-drawings.</div>`
+        : '';
+
+      return `
+        <div class="cap-details">
+          <div class="cap-block">
+            <div class="cap-block-title">Need and location</div>
+            ${field('Common area', d.project_area)}
+            ${field('Why it is needed', d.need)}
+            ${field('Exact location', d.location)}
+          </div>
+
+          <div class="cap-block">
+            <div class="cap-block-title">Drawing</div>
+            ${field('Requester confirmed the drawing shows all required items', d.drawing_confirmed ? 'Yes - footprint vs. property lines and easements, finished view, benchmark and elevation, marked utilities and waterlines, setbacks, exact measurements' : 'No')}
+            ${field('How it is being provided', DELIVERY_LABELS[d.drawing_delivery] || d.drawing_delivery)}
+            ${files ? `<ul class="cap-files">${files}</ul>` : filesNote}
+          </div>
+
+          <div class="cap-block">
+            <div class="cap-block-title">Cost estimate</div>
+            <div class="cap-sub">Materials</div>
+            ${lineTable(d.materials, [
+              { key: 'description', label: 'Description' },
+              { key: 'quantity', label: 'Qty', num: true, fmt: qty },
+              { key: 'unit', label: 'Unit' },
+              { key: 'unit_cost', label: 'Cost / unit', num: true, fmt: money },
+              { key: 'total', label: 'Total', num: true, fmt: money }
+            ], 'Materials subtotal', d.materials_total)}
+
+            <div class="cap-sub">Labor</div>
+            ${lineTable(d.labor, [
+              { key: 'step', label: 'Construction step' },
+              { key: 'hours', label: 'Hours', num: true, fmt: qty },
+              { key: 'rate', label: 'Rate / hr', num: true, fmt: money },
+              { key: 'total', label: 'Total', num: true, fmt: money }
+            ], 'Labor subtotal', d.labor_total)}
+
+            <div class="cap-sub">Miscellaneous</div>
+            ${lineTable(d.misc_costs, [
+              { key: 'description', label: 'Description' },
+              { key: 'cost', label: 'Cost', num: true, fmt: money }
+            ], 'Miscellaneous subtotal', d.misc_total)}
+
+            <div class="cap-grand"><span>Total project cost</span><strong>${money(d.estimated_amount)}</strong></div>
+          </div>
+
+          <div class="cap-block">
+            <div class="cap-block-title">Timeline</div>
+            ${field('Proposed start', formatDate(d.est_start_date))}
+            ${field('Estimated duration, start to finish', d.est_duration)}
+          </div>
+
+          ${d.notes ? `<div class="cap-block"><div class="cap-block-title">Additional notes</div><div class="cap-value">${escapeHtml(d.notes)}</div></div>` : ''}
+        </div>`;
     }
 
     async function loadDetails() {
@@ -114,9 +266,13 @@
         const label = decision === 'approved' ? 'Approve' : 'Deny';
         const btnClass = decision === 'approved' ? 'approve' : 'deny';
 
+        const isCapital = data.category === 'Common area improvement' && data.project_area;
+        document.getElementById('wrap').classList.toggle('wide', !!isCapital);
+
         content.innerHTML = `
-          <h2 style="font-family: var(--font-display); font-size: 20px; font-weight: 500; margin-bottom: 16px;">${label} this request?</h2>
-          <p class="detail"><strong>${escapeHtml(data.name)}</strong> - ${escapeHtml(data.description)} ($${data.estimated_amount})</p>
+          <h2 style="font-family: var(--font-display); font-size: 20px; font-weight: 500; margin-bottom: 16px;">${label} this ${isCapital ? 'capital improvement ' : ''}request?</h2>
+          <p class="detail"><strong>${escapeHtml(data.name)}</strong> - ${escapeHtml(data.description)} (${money(data.estimated_amount)})</p>
+          ${isCapital ? renderCapital(data) : ''}
           <button class="decide-btn ${btnClass}" id="confirm-btn">Yes, ${label.toLowerCase()}</button>
         `;
 

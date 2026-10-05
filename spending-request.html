@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Spending Request — Dowdle Trace</title>
+  <title>Spending Request - Dowdle Trace</title>
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;500&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet" />
@@ -13,6 +13,7 @@
   <link rel="icon" type="image/png" href="favicon.png" sizes="32x32">
   <style>
     .rsvp-wrap { max-width: 520px; margin: 0 auto; }
+    .rsvp-wrap.wide { max-width: 720px; }
 
     .rsvp-card {
       background: var(--gray-50);
@@ -37,7 +38,7 @@
     .form-field { display: flex; flex-direction: column; gap: 5px; }
     .form-label { font-size: 12px; font-weight: 500; color: var(--gray-500); }
     .form-required { color: #E24B4A; margin-left: 2px; }
-    .form-hint { font-size: 11px; color: var(--gray-500); margin-top: 2px; }
+    .form-hint { font-size: 11px; color: var(--gray-500); margin-top: 2px; line-height: 1.5; }
 
     .form-input,
     .form-select,
@@ -55,6 +56,7 @@
     }
     .form-textarea { height: auto; padding: 10px 12px; resize: vertical; min-height: 76px; line-height: 1.5; }
     .form-input:focus, .form-select:focus, .form-textarea:focus { outline: none; border-color: var(--green-mid); }
+    .form-input[readonly] { background: var(--gray-50); color: var(--gray-500); }
 
     .amount-field { position: relative; }
     .amount-field .form-input { padding-left: 24px; }
@@ -127,9 +129,128 @@
     }
     .notice strong { font-weight: 500; }
 
+    .form-error {
+      display: none;
+      background: #FCEBEB;
+      color: #8A2424;
+      border-radius: 10px;
+      padding: 12px 16px;
+      font-size: 13px;
+      line-height: 1.5;
+      margin-bottom: 12px;
+    }
+
+    /* ── Capital improvement section ── */
+    #capital-section[hidden] { display: none; }
+
+    .check-list { display: flex; flex-direction: column; gap: 10px; }
+    .check-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 13px;
+      color: var(--gray-900);
+      line-height: 1.45;
+      cursor: pointer;
+    }
+    .check-item input { margin-top: 2px; accent-color: var(--green-mid); flex-shrink: 0; }
+
+    .radio-group { display: flex; flex-direction: column; gap: 8px; margin-bottom: 14px; }
+
+    .line-head,
+    .line-row {
+      display: grid;
+      gap: 8px;
+      align-items: center;
+    }
+    .line-materials { grid-template-columns: 2.2fr 0.8fr 0.9fr 1fr 0.9fr 28px; }
+    .line-labor     { grid-template-columns: 2.2fr 0.9fr 1fr 0.9fr 28px; }
+    .line-misc      { grid-template-columns: 3fr 1fr 28px; }
+
+    .line-head {
+      font-size: 11px;
+      font-weight: 500;
+      color: var(--gray-500);
+      margin-bottom: 6px;
+    }
+    .line-row { margin-bottom: 8px; }
+    .line-row .form-input { height: 34px; font-size: 13px; padding: 0 8px; }
+    .line-total {
+      font-size: 13px;
+      color: var(--gray-900);
+      text-align: right;
+      font-variant-numeric: tabular-nums;
+    }
+    .line-remove {
+      width: 28px;
+      height: 28px;
+      border: none;
+      background: none;
+      color: var(--gray-500);
+      font-size: 18px;
+      cursor: pointer;
+      border-radius: 6px;
+    }
+    .line-remove:hover { background: var(--gray-200); color: #8A2424; }
+
+    .line-add {
+      background: none;
+      border: 1px dashed var(--gray-200);
+      color: var(--green-mid);
+      border-radius: 8px;
+      padding: 7px 14px;
+      font-size: 13px;
+      font-family: var(--font-body);
+      cursor: pointer;
+      margin-top: 2px;
+    }
+    .line-add:hover { border-color: var(--green-mid); }
+
+    .subtotal {
+      display: flex;
+      justify-content: space-between;
+      font-size: 13px;
+      color: var(--gray-500);
+      margin-top: 12px;
+      padding-top: 10px;
+      border-top: 1px solid var(--gray-200);
+    }
+    .subtotal strong { color: var(--gray-900); font-weight: 500; font-variant-numeric: tabular-nums; }
+
+    .grand-total {
+      display: flex;
+      justify-content: space-between;
+      align-items: baseline;
+      background: var(--green-light);
+      color: var(--green-deep);
+      border-radius: 10px;
+      padding: 14px 18px;
+      margin-top: 4px;
+    }
+    .grand-total span { font-size: 13px; font-weight: 500; }
+    .grand-total strong { font-family: var(--font-display); font-size: 22px; font-weight: 500; font-variant-numeric: tabular-nums; }
+
+    .cost-block + .cost-block { margin-top: 24px; }
+    .cost-block-title { font-size: 13px; font-weight: 500; color: var(--gray-900); margin-bottom: 4px; }
+    .cost-block .form-hint { margin-bottom: 10px; }
+
     @media (max-width: 600px) {
       .form-row { grid-template-columns: 1fr; }
       .rsvp-card { padding: 20px; }
+
+      .line-head { display: none; }
+      .line-row {
+        grid-template-columns: 1fr 1fr;
+        background: var(--white);
+        border: 1px solid var(--gray-200);
+        border-radius: 10px;
+        padding: 10px;
+        position: relative;
+      }
+      .line-row .line-desc { grid-column: 1 / -1; padding-right: 30px; }
+      .line-row .line-total { grid-column: 1 / -1; text-align: left; }
+      .line-row .line-total::before { content: "Line total: "; color: var(--gray-500); }
+      .line-row .line-remove { position: absolute; top: 12px; right: 8px; }
     }
   </style>
 </head>
@@ -156,23 +277,23 @@
   </div>
 
   <section>
-    <div class="rsvp-wrap">
+    <div class="rsvp-wrap" id="wrap">
 
       <div class="notice warn">
-        <strong>Please purchase nothing until you receive an approval emailss.</strong> Requests submitted after money has already been spent may not be reimbursed. Once approved, keep your itemized receipt to submit for reimbursement.
+        <strong>Please purchase nothing until you receive an approval email.</strong> Requests submitted after money has already been spent may not be reimbursed. Once approved, keep your itemized receipt to submit for reimbursement.
       </div>
 
-      <form id="request-form">
+      <form id="request-form" novalidate>
 
         <div class="rsvp-card">
           <div class="form-section-title">Your information</div>
           <div class="form-row">
             <div class="form-field">
-              <label class="form-label">Full name <span class="form-required">*</span></label>
+              <label class="form-label" for="req-name">Full name <span class="form-required">*</span></label>
               <input class="form-input" type="text" id="req-name" placeholder="Jane Smith" required />
             </div>
             <div class="form-field">
-              <label class="form-label">Email address <span class="form-required">*</span></label>
+              <label class="form-label" for="req-email">Email address <span class="form-required">*</span></label>
               <input class="form-input" type="email" id="req-email" placeholder="jane@email.com" required />
             </div>
           </div>
@@ -183,7 +304,7 @@
 
           <div class="form-row full" style="margin-bottom:14px;">
             <div class="form-field">
-              <label class="form-label">Category <span class="form-required">*</span></label>
+              <label class="form-label" for="req-category">Category <span class="form-required">*</span></label>
               <select class="form-select" id="req-category" required>
                 <option value="">Select...</option>
                 <option>Landscaping</option>
@@ -191,45 +312,180 @@
                 <option>Common area improvement</option>
                 <option>Other</option>
               </select>
+              <div class="form-hint" id="category-hint" hidden>Common area improvements are capital projects and need more detail for the board. Additional sections have been added below.</div>
             </div>
           </div>
 
           <div class="form-row full" style="margin-bottom:14px;">
             <div class="form-field">
-              <label class="form-label">Item or service description <span class="form-required">*</span></label>
+              <label class="form-label" for="req-description">Item or service description <span class="form-required">*</span></label>
               <textarea class="form-textarea" id="req-description" placeholder="e.g. Two arborvitae shrubs to replace the ones that died near the entrance sign" required></textarea>
             </div>
           </div>
 
           <div class="form-row">
             <div class="form-field">
-              <label class="form-label">Store or vendor</label>
+              <label class="form-label" for="req-vendor">Store or vendor</label>
               <input class="form-input" type="text" id="req-vendor" placeholder="e.g. Lowe's" />
             </div>
             <div class="form-field amount-field">
-              <label class="form-label">Estimated cost <span class="form-required">*</span></label>
+              <label class="form-label" for="req-amount">Estimated cost <span class="form-required">*</span></label>
               <input class="form-input" type="number" id="req-amount" placeholder="0.00" min="0" step="0.01" required />
+              <div class="form-hint" id="amount-hint" hidden>Calculated from the cost breakdown below.</div>
             </div>
           </div>
 
           <div class="form-row full">
             <div class="form-field">
-              <label class="form-label">Needed by (optional)</label>
+              <label class="form-label" for="req-needed-by">Needed by (optional)</label>
               <input class="form-input" type="date" id="req-needed-by" />
             </div>
           </div>
         </div>
 
+        <!-- ═══════════ Capital improvement section (shown only for "Common area improvement") ═══════════ -->
+        <div id="capital-section" hidden>
+
+          <div class="notice">
+            <strong>Capital improvement request.</strong> For projects in the common areas, including the front entrance, roadways and roadway islands, and the barn and grounds, the board requires the information below before it can consider the request.
+          </div>
+
+          <div class="rsvp-card">
+            <div class="form-section-title">Need and location</div>
+
+            <div class="form-row full" style="margin-bottom:14px;">
+              <div class="form-field">
+                <label class="form-label" for="cap-area">Common area <span class="form-required">*</span></label>
+                <select class="form-select" id="cap-area" data-req>
+                  <option value="">Select...</option>
+                  <option>Front entrance</option>
+                  <option>Roadways</option>
+                  <option>Roadway islands</option>
+                  <option>Barn and grounds</option>
+                  <option>Other common area</option>
+                </select>
+              </div>
+            </div>
+
+            <div class="form-row full" style="margin-bottom:14px;">
+              <div class="form-field">
+                <label class="form-label" for="cap-need">Why is this project needed? <span class="form-required">*</span></label>
+                <textarea class="form-textarea" id="cap-need" data-req placeholder="Describe the problem this solves or the benefit to the community"></textarea>
+              </div>
+            </div>
+
+            <div class="form-row full">
+              <div class="form-field">
+                <label class="form-label" for="cap-location">Exact location <span class="form-required">*</span></label>
+                <textarea class="form-textarea" id="cap-location" data-req placeholder="e.g. North side of the entrance island, starting 12 ft from the stop sign and running 30 ft toward the barn"></textarea>
+              </div>
+            </div>
+          </div>
+
+          <div class="rsvp-card">
+            <div class="form-section-title">Drawing / rendering</div>
+            <p class="form-hint" style="margin:0 0 14px; font-size:12px;">A drawing on plain paper is fine, as long as it shows exact measurements and the project's orientation within Dowdle Trace. Please confirm your drawing includes each of the following:</p>
+
+            <div class="check-list" style="margin-bottom:20px;">
+              <label class="check-item"><input type="checkbox" class="cap-check" data-req /> The footprint of the project in relation to property lines or easements</label>
+              <label class="check-item"><input type="checkbox" class="cap-check" data-req /> A finished view of the project</label>
+              <label class="check-item"><input type="checkbox" class="cap-check" data-req /> A benchmark, shown on the drawing, establishing the project's elevation</label>
+              <label class="check-item"><input type="checkbox" class="cap-check" data-req /> Underground utilities that have been marked, including waterlines</label>
+              <label class="check-item"><input type="checkbox" class="cap-check" data-req /> Any setbacks required by the association, county, or state</label>
+              <label class="check-item"><input type="checkbox" class="cap-check" data-req /> All measurements, which are exact</label>
+            </div>
+
+            <div class="form-label" style="margin-bottom:8px;">How will you provide the drawing? <span class="form-required">*</span></div>
+            <div class="radio-group">
+              <label class="check-item"><input type="radio" name="cap-delivery" value="upload" data-req /> Upload it here (photo or scan)</label>
+              <label class="check-item"><input type="radio" name="cap-delivery" value="email" /> Email it to <a href="mailto:dowdletrace@gmail.com">dowdletrace@gmail.com</a></label>
+              <label class="check-item"><input type="radio" name="cap-delivery" value="paper" /> Deliver a paper copy to a board member</label>
+            </div>
+
+            <div class="form-field" id="upload-field" hidden>
+              <label class="form-label" for="cap-files">Drawing files <span class="form-required">*</span></label>
+              <input class="form-input" type="file" id="cap-files" accept="image/jpeg,image/png,image/heic,application/pdf" multiple style="height:auto; padding:8px;" />
+              <div class="form-hint">JPG, PNG, HEIC, or PDF. Up to 5 files, 10 MB each.</div>
+            </div>
+          </div>
+
+          <div class="rsvp-card">
+            <div class="form-section-title">Cost estimate</div>
+
+            <div class="cost-block">
+              <div class="cost-block-title">Materials</div>
+              <div class="form-hint">List each material with its unit of measure (each, bag, ton, linear ft, etc.) and cost per unit.</div>
+              <div class="line-head line-materials">
+                <span>Description</span><span>Qty</span><span>Unit</span><span>Cost / unit</span><span style="text-align:right;">Total</span><span></span>
+              </div>
+              <div id="materials-rows"></div>
+              <button type="button" class="line-add" data-add="materials">+ Add material</button>
+              <div class="subtotal"><span>Materials subtotal</span><strong id="materials-total">$0.00</strong></div>
+            </div>
+
+            <div class="cost-block">
+              <div class="cost-block-title">Labor</div>
+              <div class="form-hint">One line per construction step, with estimated hours and hourly rate. Use $0 for volunteer labor.</div>
+              <div class="line-head line-labor">
+                <span>Construction step</span><span>Hours</span><span>Rate / hr</span><span style="text-align:right;">Total</span><span></span>
+              </div>
+              <div id="labor-rows"></div>
+              <button type="button" class="line-add" data-add="labor">+ Add labor step</button>
+              <div class="subtotal"><span>Labor subtotal</span><strong id="labor-total">$0.00</strong></div>
+            </div>
+
+            <div class="cost-block">
+              <div class="cost-block-title">Miscellaneous</div>
+              <div class="form-hint">Porta-potties, cleanup, waste containers, permits, equipment rental, etc.</div>
+              <div class="line-head line-misc">
+                <span>Description</span><span>Cost</span><span></span>
+              </div>
+              <div id="misc-rows"></div>
+              <button type="button" class="line-add" data-add="misc">+ Add miscellaneous cost</button>
+              <div class="subtotal"><span>Miscellaneous subtotal</span><strong id="misc-total">$0.00</strong></div>
+            </div>
+
+            <div class="grand-total" style="margin-top:20px;">
+              <span>Total project cost</span>
+              <strong id="grand-total">$0.00</strong>
+            </div>
+          </div>
+
+          <div class="rsvp-card">
+            <div class="form-section-title">Timeline</div>
+            <div class="form-row" style="margin-bottom:0;">
+              <div class="form-field">
+                <label class="form-label" for="cap-start">Proposed start date</label>
+                <input class="form-input" type="date" id="cap-start" />
+              </div>
+              <div class="form-field">
+                <label class="form-label" for="cap-duration">Estimated duration, start to finish <span class="form-required">*</span></label>
+                <div style="display:grid; grid-template-columns: 1fr 1fr; gap:8px;">
+                  <input class="form-input" type="number" id="cap-duration" min="1" step="1" placeholder="e.g. 3" data-req />
+                  <select class="form-select" id="cap-duration-unit">
+                    <option>days</option>
+                    <option selected>weeks</option>
+                    <option>months</option>
+                  </select>
+                </div>
+              </div>
+            </div>
+          </div>
+
+        </div>
+        <!-- ═══════════ end capital section ═══════════ -->
+
         <div class="rsvp-card">
           <div class="form-section-title">Anything else</div>
           <div class="form-row full">
             <div class="form-field">
-              <label class="form-label">Additional notes</label>
+              <label class="form-label" for="req-notes">Additional notes</label>
               <textarea class="form-textarea" id="req-notes" placeholder="Any context that helps the board evaluate this - photos can be emailed separately to dowdletrace@gmail.com"></textarea>
             </div>
           </div>
         </div>
 
+        <div class="form-error" id="form-error" role="alert"></div>
         <button type="submit" class="form-submit" id="req-submit">Submit for approval</button>
 
       </form>
@@ -237,7 +493,7 @@
       <div class="success-message" id="success-message">
         <h3>Request submitted</h3>
         <p>The board has been notified and will review your request. You'll hear back by email - please hold off on purchasing until then. You can check your status anytime on the <a href="spending-status.html">status lookup page</a>.</p>
-        <a href="events.html" class="success-back">← Back to home</a>
+        <a href="index.html" class="success-back">← Back to home</a>
       </div>
 
     </div>
@@ -254,26 +510,269 @@
     const SUPABASE_URL = 'https://btsjwkbvqqdnkvguqzcm.supabase.co';
     const SUPABASE_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJ0c2p3a2J2cXFkbmt2Z3VxemNtIiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg2MjIwMzksImV4cCI6MjA5NDE5ODAzOX0.b9FqXDoQFiqEp2te8BXaC4WiKNdQ4JJzNpY625w3R5Q';
     const TABLE = 'hoa_spending_requests';
+    const BUCKET = 'capital-drawings';
+    const CAPITAL_CATEGORY = 'Common area improvement';
+    const MAX_FILES = 5;
+    const MAX_FILE_BYTES = 10 * 1024 * 1024;
 
-    document.getElementById('request-form').addEventListener('submit', async e => {
+    const $ = id => document.getElementById(id);
+    const form = $('request-form');
+    const capSection = $('capital-section');
+    const amountEl = $('req-amount');
+    const errorEl = $('form-error');
+
+    const money = n => '$' + (Number(n) || 0).toLocaleString('en-US', { minimumFractionDigits: 2, maximumFractionDigits: 2 });
+    const num = v => { const n = parseFloat(v); return isNaN(n) ? 0 : n; };
+    const round2 = n => Math.round(n * 100) / 100;
+    const isCapital = () => $('req-category').value === CAPITAL_CATEGORY;
+
+    // ── Line-item tables ──
+    const LINE_TYPES = {
+      materials: {
+        cls: 'line-materials',
+        fields: [
+          { key: 'description', type: 'text', ph: 'e.g. Pressure-treated 6x6 post, 8 ft', desc: true },
+          { key: 'quantity', type: 'number', ph: 'Qty', step: 'any' },
+          { key: 'unit', type: 'text', ph: 'Unit (each, bag...)' },
+          { key: 'unit_cost', type: 'number', ph: 'Cost / unit', step: '0.01' }
+        ],
+        total: r => r.quantity * r.unit_cost
+      },
+      labor: {
+        cls: 'line-labor',
+        fields: [
+          { key: 'step', type: 'text', ph: 'e.g. Excavation and grading', desc: true },
+          { key: 'hours', type: 'number', ph: 'Hours', step: 'any' },
+          { key: 'rate', type: 'number', ph: 'Rate / hr', step: '0.01' }
+        ],
+        total: r => r.hours * r.rate
+      },
+      misc: {
+        cls: 'line-misc',
+        fields: [
+          { key: 'description', type: 'text', ph: 'e.g. Porta-potty rental, 2 weeks', desc: true },
+          { key: 'cost', type: 'number', ph: 'Cost', step: '0.01' }
+        ],
+        total: r => r.cost
+      }
+    };
+
+    function addRow(type) {
+      const def = LINE_TYPES[type];
+      const row = document.createElement('div');
+      row.className = `line-row ${def.cls}`;
+      def.fields.forEach(f => {
+        const input = document.createElement('input');
+        input.className = 'form-input' + (f.desc ? ' line-desc' : '');
+        input.type = f.type;
+        input.placeholder = f.ph;
+        input.dataset.key = f.key;
+        input.setAttribute('aria-label', f.key.replace('_', ' '));
+        if (f.type === 'number') { input.min = '0'; input.step = f.step; input.inputMode = 'decimal'; }
+        row.appendChild(input);
+      });
+      const total = document.createElement('div');
+      total.className = 'line-total';
+      total.textContent = money(0);
+      row.appendChild(total);
+      const remove = document.createElement('button');
+      remove.type = 'button';
+      remove.className = 'line-remove';
+      remove.setAttribute('aria-label', 'Remove line');
+      remove.textContent = '×';
+      remove.addEventListener('click', () => { row.remove(); recalc(); });
+      row.appendChild(remove);
+      row.addEventListener('input', recalc);
+      $(`${type}-rows`).appendChild(row);
+      return row;
+    }
+
+    // Returns only rows the person actually filled in
+    function readRows(type) {
+      const def = LINE_TYPES[type];
+      return [...$(`${type}-rows`).children].map(row => {
+        const r = {};
+        def.fields.forEach(f => {
+          const v = row.querySelector(`[data-key="${f.key}"]`).value.trim();
+          r[f.key] = f.type === 'number' ? (v === '' ? null : num(v)) : v;
+        });
+        return r;
+      }).filter(r => Object.values(r).some(v => v !== '' && v !== null));
+    }
+
+    function recalc() {
+      const totals = {};
+      Object.keys(LINE_TYPES).forEach(type => {
+        const def = LINE_TYPES[type];
+        let sum = 0;
+        [...$(`${type}-rows`).children].forEach(row => {
+          const r = {};
+          def.fields.forEach(f => { r[f.key] = num(row.querySelector(`[data-key="${f.key}"]`).value); });
+          const t = round2(def.total(r));
+          row.querySelector('.line-total').textContent = money(t);
+          sum += t;
+        });
+        totals[type] = round2(sum);
+        $(`${type}-total`).textContent = money(totals[type]);
+      });
+      const grand = round2(totals.materials + totals.labor + totals.misc);
+      $('grand-total').textContent = money(grand);
+      if (isCapital()) amountEl.value = grand.toFixed(2);
+      return { ...totals, grand };
+    }
+
+    document.querySelectorAll('[data-add]').forEach(btn =>
+      btn.addEventListener('click', () => addRow(btn.dataset.add).querySelector('input').focus())
+    );
+
+    // ── Show / hide the capital section ──
+    function applyCategory() {
+      const on = isCapital();
+      capSection.hidden = !on;
+      $('category-hint').hidden = !on;
+      $('amount-hint').hidden = !on;
+      $('wrap').classList.toggle('wide', on);
+      amountEl.readOnly = on;
+      capSection.querySelectorAll('[data-req]').forEach(el => { el.required = on; });
+      applyDelivery();
+      if (on) {
+        Object.keys(LINE_TYPES).forEach(t => { if (!$(`${t}-rows`).children.length) addRow(t); });
+        recalc();
+      }
+    }
+
+    function applyDelivery() {
+      const sel = form.querySelector('input[name="cap-delivery"]:checked');
+      const upload = isCapital() && sel && sel.value === 'upload';
+      $('upload-field').hidden = !upload;
+      $('cap-files').required = upload;
+    }
+
+    $('req-category').addEventListener('change', applyCategory);
+    form.querySelectorAll('input[name="cap-delivery"]').forEach(r => r.addEventListener('change', applyDelivery));
+
+    // ── Validation ──
+    function showError(msg, focusEl) {
+      errorEl.textContent = msg;
+      errorEl.style.display = 'block';
+      if (focusEl) focusEl.focus();
+      else errorEl.scrollIntoView({ behavior: 'smooth', block: 'center' });
+    }
+    function clearError() { errorEl.style.display = 'none'; errorEl.textContent = ''; }
+
+    function validate() {
+      // Native checks first (required fields, email format)
+      const firstInvalid = [...form.elements].find(el => !el.closest('[hidden]') && el.willValidate && !el.checkValidity());
+      if (firstInvalid) {
+        if (firstInvalid.classList.contains('cap-check')) return showError('Please confirm your drawing includes every item in the checklist.', firstInvalid), false;
+        if (firstInvalid.name === 'cap-delivery') return showError('Please choose how you will provide the drawing.', firstInvalid), false;
+        if (firstInvalid.id === 'cap-files') return showError('Please attach your drawing, or choose to email or deliver it instead.', firstInvalid), false;
+        const label = form.querySelector(`label[for="${firstInvalid.id}"]`);
+        const name = label ? label.childNodes[0].textContent.trim() : 'a required field';
+        return showError(`Please fill in: ${name}.`, firstInvalid), false;
+      }
+
+      if (!isCapital()) return true;
+
+      // Line items: anything partly filled in must be complete
+      const checks = [
+        ['materials', ['description', 'quantity', 'unit', 'unit_cost'], 'Each material line needs a description, quantity, unit, and cost per unit.'],
+        ['labor', ['step', 'hours', 'rate'], 'Each labor line needs a construction step, hours, and hourly rate.'],
+        ['misc', ['description', 'cost'], 'Each miscellaneous line needs a description and cost.']
+      ];
+      for (const [type, keys, msg] of checks) {
+        const bad = readRows(type).some(r => keys.some(k => r[k] === '' || r[k] === null));
+        if (bad) return showError(msg), false;
+      }
+      if (!readRows('materials').length && !readRows('labor').length) {
+        return showError('Please add at least one material or labor line to the cost estimate.'), false;
+      }
+
+      const files = [...$('cap-files').files];
+      if (!$('upload-field').hidden) {
+        if (files.length > MAX_FILES) return showError(`Please attach no more than ${MAX_FILES} files.`), false;
+        const big = files.find(f => f.size > MAX_FILE_BYTES);
+        if (big) return showError(`"${big.name}" is larger than 10 MB. Please resize it or email it instead.`), false;
+      }
+      return true;
+    }
+
+    // ── Uploads ──
+    async function uploadDrawings(files) {
+      const folder = (crypto.randomUUID ? crypto.randomUUID() : Date.now().toString(36));
+      const paths = [];
+      for (const file of files) {
+        const safe = file.name.replace(/[^a-zA-Z0-9._-]/g, '_');
+        const path = `${folder}/${safe}`;
+        const res = await fetch(`${SUPABASE_URL}/storage/v1/object/${BUCKET}/${path}`, {
+          method: 'POST',
+          credentials: 'omit',
+          headers: {
+            'apikey': SUPABASE_KEY,
+            'Authorization': `Bearer ${SUPABASE_KEY}`,
+            'Content-Type': file.type || 'application/octet-stream',
+            'x-upsert': 'false'
+          },
+          body: file
+        });
+        if (!res.ok) throw new Error(`Upload failed for ${file.name}`);
+        paths.push(path);
+      }
+      return paths;
+    }
+
+    // ── Submit ──
+    form.addEventListener('submit', async e => {
       e.preventDefault();
+      clearError();
+      if (!validate()) return;
 
-      const name = document.getElementById('req-name').value.trim();
-      const email = document.getElementById('req-email').value.trim();
-      const category = document.getElementById('req-category').value;
-      const description = document.getElementById('req-description').value.trim();
-      const vendor = document.getElementById('req-vendor').value.trim();
-      const amount = document.getElementById('req-amount').value;
-      const neededBy = document.getElementById('req-needed-by').value || null;
-      const notes = document.getElementById('req-notes').value.trim();
-
-      if (!name || !email || !category || !description || !amount) return;
-
-      const btn = document.getElementById('req-submit');
+      const btn = $('req-submit');
+      const resetBtn = msg => { btn.textContent = msg || 'Submit for approval'; btn.disabled = false; };
       btn.textContent = 'Submitting...';
       btn.disabled = true;
 
+      const capital = isCapital();
+      const totals = capital ? recalc() : null;
+
+      const payload = {
+        name: $('req-name').value.trim(),
+        email: $('req-email').value.trim(),
+        category: $('req-category').value,
+        description: $('req-description').value.trim(),
+        vendor: $('req-vendor').value.trim() || null,
+        estimated_amount: parseFloat(amountEl.value),
+        needed_by: $('req-needed-by').value || null,
+        notes: $('req-notes').value.trim() || null,
+        status: 'pending'
+      };
+
       try {
+        if (capital) {
+          const delivery = form.querySelector('input[name="cap-delivery"]:checked').value;
+          const files = delivery === 'upload' ? [...$('cap-files').files] : [];
+          if (files.length) btn.textContent = 'Uploading drawing...';
+          const drawingPaths = files.length ? await uploadDrawings(files) : [];
+          btn.textContent = 'Submitting...';
+
+          Object.assign(payload, {
+            project_area: $('cap-area').value,
+            need: $('cap-need').value.trim(),
+            location: $('cap-location').value.trim(),
+            drawing_confirmed: true,
+            drawing_delivery: delivery,
+            drawing_files: drawingPaths.length ? drawingPaths : null,
+            materials: readRows('materials').map(r => ({ ...r, total: round2(r.quantity * r.unit_cost) })),
+            labor: readRows('labor').map(r => ({ ...r, total: round2(r.hours * r.rate) })),
+            misc_costs: readRows('misc'),
+            materials_total: totals.materials,
+            labor_total: totals.labor,
+            misc_total: totals.misc,
+            est_start_date: $('cap-start').value || null,
+            est_duration: `${$('cap-duration').value} ${$('cap-duration-unit').value}`
+          });
+        }
+
         const res = await fetch(`${SUPABASE_URL}/rest/v1/${TABLE}`, {
           method: 'POST',
           credentials: 'omit',
@@ -283,31 +782,26 @@
             'Content-Type': 'application/json',
             'Prefer': 'return=minimal'
           },
-          body: JSON.stringify({
-            name,
-            email,
-            category,
-            description,
-            vendor: vendor || null,
-            estimated_amount: parseFloat(amount),
-            needed_by: neededBy,
-            notes: notes || null,
-            status: 'pending'
-          })
+          body: JSON.stringify(payload)
         });
 
         if (res.ok) {
-          document.getElementById('request-form').style.display = 'none';
-          document.getElementById('success-message').style.display = 'block';
+          form.style.display = 'none';
+          $('success-message').style.display = 'block';
+          window.scrollTo({ top: 0, behavior: 'smooth' });
         } else {
-          btn.textContent = 'Something went wrong — please try again';
-          btn.disabled = false;
+          resetBtn();
+          showError('Something went wrong saving your request - please try again.');
         }
-      } catch (e) {
-        btn.textContent = 'Something went wrong — please try again';
-        btn.disabled = false;
+      } catch (err) {
+        resetBtn();
+        showError(err.message && err.message.startsWith('Upload failed')
+          ? `${err.message}. You can choose "Email it" instead and send the drawing to dowdletrace@gmail.com.`
+          : 'Something went wrong - please check your connection and try again.');
       }
     });
+
+    applyCategory();
   </script>
 
 </body>
