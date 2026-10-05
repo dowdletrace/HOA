@@ -259,7 +259,9 @@
         const data = await res.json();
 
         if (!res.ok) {
-          content.innerHTML = `<div class="result-message error"><h2>${data.status ? 'Already decided' : 'Link not valid'}</h2><p>${escapeHtml(data.error || 'Something went wrong.')}</p></div>`;
+          const detail = data.error || data.message || data.msg || 'Something went wrong.';
+          content.innerHTML = `<div class="result-message error"><h2>${data.status ? 'Already decided' : 'Link not valid'}</h2><p>${escapeHtml(detail)}</p><p style="font-size:12px; margin-top:8px;">(HTTP ${res.status}${data.code ? ' &middot; ' + escapeHtml(data.code) : ''})</p></div>`;
+          console.error('decide-spending-request', res.status, data);
           return;
         }
 
